@@ -1,105 +1,85 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>LOJAS KFC BRASIL</title>
-  <style>
-    :root {
-      --bg: #0d0f12;
-      --primary: #4c8bff; /* azul piscina */
-      --text: #ffffff;
-      --header-bg: #15181d;
-    }
-
-    body {
-      margin: 0;
-      padding: 0;
-      font-family: Arial, sans-serif;
-      background-color: var(--bg);
-      color: var(--text);
-    }
-
-    h1 {
-      text-align: center;
-      margin: 20px 0;
-      color: var(--primary);
-      text-transform: uppercase;
-      font-size: 32px;
-    }
-
-    .search-container {
-      max-width: 800px;
-      margin: 20px auto;
-      text-align: center;
-    }
-
-    input[type="text"] {
-      width: 80%;
-      padding: 10px;
-      border-radius: 8px;
-      border: 1px solid var(--primary);
-      font-size: 16px;
-      background-color: var(--header-bg);
-      color: var(--text);
-    }
-
-    table {
-      width: 90%;
-      margin: 20px auto 50px;
-      border-collapse: collapse;
-    }
-
-    th, td {
-      padding: 12px 10px;
-      border: 1px solid var(--primary);
-      text-align: left;
-    }
-
-    th {
-      background-color: var(--primary);
-      color: #0d0f12;
-      text-transform: uppercase;
-    }
-
-    tr:nth-child(even) {
-      background-color: #1a1d22;
-    }
-
-    a {
-      color: var(--primary);
-      text-decoration: none;
-    }
-
-    a:hover {
-      text-decoration: underline;
-    }
-  </style>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Lojas KFC</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    background-color: #1b1b1b;
+    color: white;
+    padding: 20px;
+  }
+  h1 {
+    color: #40E0D0; /* azul piscina */
+    text-transform: uppercase;
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+  }
+  table, th, td {
+    border: 1px solid #ccc;
+  }
+  th {
+    background-color: #40E0D0; /* azul piscina */
+    color: white;
+    padding: 8px;
+  }
+  td {
+    padding: 8px;
+  }
+  input, button {
+    padding: 5px;
+    margin: 5px 0;
+  }
+  button {
+    cursor: pointer;
+    background-color: #40E0D0;
+    color: white;
+    border: none;
+    border-radius: 4px;
+  }
+  button:hover {
+    opacity: 0.8;
+  }
+</style>
 </head>
 <body>
 
 <h1>LOJAS KFC BRASIL</h1>
 
-<div class="search-container">
-  <input type="text" id="searchInput" placeholder="Pesquisar loja, cidade ou código..." onkeyup="filterTable()">
-</div>
+<input type="text" id="searchInput" placeholder="Buscar..." onkeyup="filterTable()">
+<button onclick="showAddForm()">Adicionar Loja</button>
 
 <table id="lojasTable">
   <thead>
     <tr>
       <th>Código</th>
-      <th>Nome da Loja</th>
-      <th>E-mail</th>
+      <th>Nome</th>
+      <th>Email</th>
       <th>Endereço</th>
+      <th>Ações</th>
     </tr>
   </thead>
-  <tbody>
-    <!-- Todas as lojas -->
-  </tbody>
+  <tbody></tbody>
 </table>
 
+<!-- Formulário para adicionar loja -->
+<div id="addForm" style="display:none; margin-top: 20px;">
+  <h3>Adicionar Nova Loja</h3>
+  <input type="text" id="newCodigo" placeholder="Código">
+  <input type="text" id="newNome" placeholder="Nome">
+  <input type="text" id="newEmail" placeholder="Email">
+  <input type="text" id="newEndereco" placeholder="Endereço">
+  <button onclick="addLoja()">Salvar</button>
+  <button onclick="hideAddForm()">Cancelar</button>
+</div>
+
 <script>
-const lojas = [
+let lojas = [
   {codigo:"K001", nome:"Shopping Analia Franco", email:"kfcbr001@kfc.com.br", endereco:"Av. Regente Feijó, 1.739 – Tatuapé, São Paulo (SP)"},
   {codigo:"K002", nome:"Shopping Diamond Mall", email:"kfcbr002@kfc.com.br", endereco:"Av. Olegário Maciel, 1.600 – Lourdes, Belo Horizonte (MG)"},
   {codigo:"K003", nome:"Shopping Boulevard BH", email:"kfcbr003@kfc.com.br", endereco:"Av. dos Andradas, 3.000 – Santa Efigênia, Belo Horizonte (MG)"},
@@ -111,7 +91,7 @@ const lojas = [
   {codigo:"K047", nome:"Osasco Plaza Shopping", email:"kfcbr047@kfc.com.br", endereco:"R. Ten. Avelar Pires de Azevedo, 81 – Centro, Osasco (SP)"},
   {codigo:"K048", nome:"Shopping Metro Santa Cruz", email:"kfcbr048@kfc.com.br", endereco:"Rua Domingos de Moraes, 2.564 – Vila Mariana, São Paulo (SP)"},
   {codigo:"K049", nome:"Shopping Eldorado", email:"kfcbr049@kfc.com.br", endereco:"Av. Rebouças, 3970 – Pinheiros, São Paulo (SP)"},
-  {codigo:"K050", nome:"Shopping Metro Tatuape", email:"kfcbr050@kfc.com.br", endereco:"R. Domingos Agustim, s/n - São Paulo - SP - Sala Comercial N 513"},
+  {codigo:"K050", nome:"Shopping Metro Tatuape", email:"kfcbr050@kfc.com.br", endereco:"R. Domingos Agustim, s/n   - São Paulo - SP - Sala Comercial N 513"},
   {codigo:"K051", nome:"Shopping Tambore", email:"kfcbr051@kfc.com.br", endereco:"Avenida Piracema, 669 - Tamboré, Barueri - SP"},
   {codigo:"K052", nome:"Park Shopping Sao Caetano", email:"kfcbr052@kfc.com.br", endereco:"Alameda Terracota, 545 - São Caetano do Sul - SP - Loja 2096"},
   {codigo:"K053", nome:"Shopping Uniao Osasco", email:"kfcbr053@kfc.com.br", endereco:"Av. dos Autonomistas, 4840 – Vila Yara, Osasco (SP)"},
@@ -136,7 +116,7 @@ const lojas = [
   {codigo:"K074", nome:"Shopping Bourbon", email:"kfcbr074@kfc.com.br", endereco:"R. Palestra Itália, 500 - São Paulo - SP"},
   {codigo:"K075", nome:"Shopping Contagem", email:"kfcbr075@kfc.com.br", endereco:"Av. Severino Ballesteros Rodrigues, 850 - Contagem - MG"},
   {codigo:"K076", nome:"Shopping Butanta", email:"kfcbr076@kfc.com.br", endereco:"Av. Prof. Francisco Morato, 2718 - São Paulo - SP"},
-  {codigo:"K077", nome:"Shopping Campinas", email:"kfcbr077@kfc.com.br", endereco:"R. Jacy Teixeira de Camargo, 940 - Campinas - SP"},
+  {codigo:"K077", nome:"Shopping Campinas", email:"kfcbr077@kfc.com.br", endereco:"R. Jacy Teixeira de Camargo, 940  -  Campinas - SP"},
   {codigo:"K078", nome:"Morumbi Town Shopping", email:"kfcbr078@kfc.com.br", endereco:"Av. Giovanni Gronchi, 5930 - São Paulo - SP"},
   {codigo:"K079", nome:"Shopping Cidade BH", email:"kfcbr079@kfc.com.br", endereco:"R. dos Tupis, 337 - Belo Horizonte - MG - Luc T18/ T19"},
   {codigo:"K080", nome:"Shopping Super Osasco", email:"kfcbr080@kfc.com.br", endereco:"Av. dos Autonomistas, 2.200 – Osasco (SP)"},
@@ -157,7 +137,7 @@ const lojas = [
   {codigo:"K096", nome:"Shopping Partagem Betim", email:"kfcbr096@kfc.com.br", endereco:"Rod. Fernão Dias - KM 492, 601 - São João, Betim - MG"},
   {codigo:"K097", nome:"Shopping Guararapes", email:"kfcbr097@kfc.com.br", endereco:"Av. Barreto de Menezes, 800 - Jaboatão do Guararapes - PE"},
   {codigo:"K098", nome:"Shopping Parangaba", email:"kfcbr098@kfc.com.br", endereco:"R. Germano Franck, 300 - Fortaleza - CE"},
-  {codigo:"K099", nome:"Maceio Shopping", email:"kfcbr099@kfc.com.br", endereco:"Av. Comendador Gustavo Paiva, 2990 - Maceió - AL"},
+  {codigo:"K099", nome:"Maceio Shopping", email:"kfcbr099@kfc.com.br", endereco:"Av. Comendador GustAv.o Paiva, 2990 - Maceió - AL"},
   {codigo:"K100", nome:"Shopping Buriti", email:"kfcbr100@kfc.com.br", endereco:"Av. Rio Verde Q102, 104 - Vila São Tomaz, Goiânia - GO"},
   {codigo:"K101", nome:"Shopping Tacaruna", email:"kfcbr101@kfc.com.br", endereco:"Av. Gov. Agamenon Magalhães, 605 – Casa Amarela, Recife (PE)"},
   {codigo:"K103", nome:"Taguatinga Shopping 2", email:"kfcbr103@kfc.com.br", endereco:"QS 1, Taguatinga - 70297-400 - LUC 3013, QS 01, Lote 40 - Taguatinga, Brasília - DF - Loja 3005"},
@@ -170,76 +150,47 @@ const lojas = [
   {codigo:"K111", nome:"Shopping Metropolitano Barra", email:"kfcbr111@kfc.com.br", endereco:"Av. Embaixador Abelardo Bueno, 1300 - Barra da Tijuca, Rio de Janeiro - RJ - LUC 2109"},
   {codigo:"K112", nome:"BH Shopping", email:"kfcbr112@kfc.com.br", endereco:"BR-356, 3049 - Belvedere, Belo Horizonte - MG - LUC 58 E LUC 59"},
   {codigo:"K113", nome:"Shopping Parque Botucatu", email:"kfcbr113@kfc.com.br", endereco:"Avenida Marginal Duzentos, 1050 - Vila Real, Botucatu - SP - LUC 1083"},
-  {codigo:"K114", nome:"Shopping Sul - Valparaiso de Goais - GO", email:"kfcbr114@kfc.com.br", endereco:"Rod. BR-040, km 48 – Valparaíso de Goiás (GO)"},
-  {codigo:"K115", nome:"Shopping Boulevard BH 2", email:"kfcbr115@kfc.com.br", endereco:"Av. Cristiano Machado, 4.000 - Belo Horizonte - MG"},
-  {codigo:"K116", nome:"Shopping Cidade Caruaru", email:"kfcbr116@kfc.com.br", endereco:"Av. Adjar da Silva Casé, 1000 – Caruaru (PE)"},
-  {codigo:"K117", nome:"Shopping Boa Vista Recife", email:"kfcbr117@kfc.com.br", endereco:"R. Rui Barbosa, 300 – Recife (PE)"},
-  {codigo:"K118", nome:"Shopping Recife", email:"kfcbr118@kfc.com.br", endereco:"Av. República do Líbano, 251 - Boa Viagem, Recife - PE"},
-  {codigo:"K119", nome:"Shopping Eldorado BH", email:"kfcbr119@kfc.com.br", endereco:"Av. Nossa Senhora do Carmo, 400 - Belo Horizonte - MG"},
-  {codigo:"K120", nome:"Shopping Center Recife", email:"kfcbr120@kfc.com.br", endereco:"Av. República do Líbano, 251 - Boa Viagem, Recife - PE"},
-  {codigo:"K121", nome:"Shopping Maceio", email:"kfcbr121@kfc.com.br", endereco:"Av. Comendador Gustavo Paiva, 2990 - Jatiúca, Maceió - AL"},
-  {codigo:"K122", nome:"Shopping Iguatemi Fortaleza", email:"kfcbr122@kfc.com.br", endereco:"Av. Washington Soares, 85 - Fortaleza - CE"},
-  {codigo:"K123", nome:"Shopping Iguatemi Campinas", email:"kfcbr123@kfc.com.br", endereco:"Av. Iguatemi, 777 - Campinas - SP"},
-  {codigo:"K124", nome:"Shopping Center Norte", email:"kfcbr124@kfc.com.br", endereco:"Av. Zaki Narchi, 1.000 - São Paulo - SP"},
-  {codigo:"K125", nome:"Shopping Eldorado Campinas", email:"kfcbr125@kfc.com.br", endereco:"Av. Iguatemi, 777 - Campinas - SP"},
-  {codigo:"K126", nome:"Shopping Center Iguatemi Ribeirao Preto", email:"kfcbr126@kfc.com.br", endereco:"Av. Cel. Fernando Ferreira Leite, 1545 – Ribeirão Preto - SP"},
-  {codigo:"K127", nome:"Shopping Paulista", email:"kfcbr127@kfc.com.br", endereco:"Av. Paulista, 1.000 – São Paulo (SP)"},
-  {codigo:"K128", nome:"Shopping Iguatemi Porto Alegre", email:"kfcbr128@kfc.com.br", endereco:"Av. João Wallig, 1800 – Porto Alegre (RS)"},
-  {codigo:"K129", nome:"Shopping JK Iguatemi", email:"kfcbr129@kfc.com.br", endereco:"Av. Pres. Juscelino Kubitschek, 2041 – São Paulo (SP)"},
-  {codigo:"K130", nome:"Shopping Rio Design Barra", email:"kfcbr130@kfc.com.br", endereco:"Av. das Américas, 7777 - Barra da Tijuca - RJ"},
-  {codigo:"K131", nome:"Shopping Rio Sul", email:"kfcbr131@kfc.com.br", endereco:"Rua Lauro Muller, 116 – Botafogo, Rio de Janeiro (RJ)"},
-  {codigo:"K132", nome:"Shopping Leblon", email:"kfcbr132@kfc.com.br", endereco:"Av. Afrânio de Melo Franco, 290 – Leblon, Rio de Janeiro (RJ)"},
-  {codigo:"K133", nome:"Shopping Downtown", email:"kfcbr133@kfc.com.br", endereco:"Av. das Américas, 500 – Barra da Tijuca, Rio de Janeiro (RJ)"},
-  {codigo:"K134", nome:"Shopping Plaza Niteroi", email:"kfcbr134@kfc.com.br", endereco:"Av. Amaral Peixoto, 941 – Centro, Niterói (RJ)"},
-  {codigo:"K135", nome:"Shopping Praia de Belas", email:"kfcbr135@kfc.com.br", endereco:"Av. Praia de Belas, 1.181 – Porto Alegre (RS)"},
-  {codigo:"K136", nome:"Shopping Iguatemi Florianopolis", email:"kfcbr136@kfc.com.br", endereco:"Av. Madre Benvenuta, 6877 – Florianópolis (SC)"},
-  {codigo:"K137", nome:"Shopping Beira Mar Fortaleza", email:"kfcbr137@kfc.com.br", endereco:"Av. Beira Mar, 3980 - Fortaleza - CE"},
-  {codigo:"K138", nome:"Shopping Norte Sul", email:"kfcbr138@kfc.com.br", endereco:"Rua Miguel Couto, 800 - Recife - PE"},
-  {codigo:"K139", nome:"Shopping Iguatemi Curitiba", email:"kfcbr139@kfc.com.br", endereco:"Rua Prof. Pedro Viriato Parigot de Souza, 5.300 – Curitiba - PR"},
-  {codigo:"K140", nome:"Shopping Palladium Curitiba", email:"kfcbr140@kfc.com.br", endereco:"Rua Prof. Pedro Viriato Parigot de Souza, 5.800 – Curitiba - PR"},
-  {codigo:"K141", nome:"Shopping Mueller Joinville", email:"kfcbr141@kfc.com.br", endereco:"Rua XV de Novembro, 1.501 – Joinville - SC"},
-  {codigo:"K142", nome:"Shopping Neumarkt Blumenau", email:"kfcbr142@kfc.com.br", endereco:"Rua XV de Novembro, 1.000 – Blumenau - SC"},
-  {codigo:"K143", nome:"Shopping Curitiba", email:"kfcbr143@kfc.com.br", endereco:"Rua Prof. Pedro Viriato Parigot de Souza, 5.000 – Curitiba - PR"},
-  {codigo:"K144", nome:"Shopping RioMar Recife", email:"kfcbr144@kfc.com.br", endereco:"Av. República do Líbano, 251 – Recife (PE)"},
-  {codigo:"K145", nome:"Shopping Recife", email:"kfcbr145@kfc.com.br", endereco:"Av. República do Líbano, 251 – Recife (PE)"},
-  {codigo:"K146", nome:"Shopping RioMar Fortaleza", email:"kfcbr146@kfc.com.br", endereco:"Av. Eng. Leite Albuquerque, 22 – Fortaleza (CE)"},
-  {codigo:"K147", nome:"Shopping North Way Recife", email:"kfcbr147@kfc.com.br", endereco:"Av. Governador Agamenon Magalhães, 2.400 – Recife (PE)"},
-  {codigo:"K148", nome:"Shopping North Way Paulista", email:"kfcbr148@kfc.com.br", endereco:"Av. Governador Agamenon Magalhães, 2.400 – Paulista (PE)"},
-  {codigo:"K149", nome:"Shopping Patio Maceió", email:"kfcbr149@kfc.com.br", endereco:"Av. Fernandes Lima, 2.786 – Jatiúca, Maceió (AL)"},
-  {codigo:"K150", nome:"Shopping Atrium Santo André", email:"kfcbr150@kfc.com.br", endereco:"Av. Giovanni Battista Pirelli, 1.550 – Santo André (SP)"},
-  {codigo:"K151", nome:"Shopping Cidade Sorocaba", email:"kfcbr151@kfc.com.br", endereco:"Av. Três de Março, 951 – Sorocaba (SP)"},
-  {codigo:"K152", nome:"Shopping Patio Limeira", email:"kfcbr152@kfc.com.br", endereco:"Av. Paulo de Almeida Nogueira, 1.000 – Limeira (SP)"},
-  {codigo:"K153", nome:"Shop.Sider-Volta Redonda", email:"kfcbr153@kfc.com.br", endereco:"Rua Doze, 300 – Vila Santa Cecília, Volta Redonda (RJ)"},
-  {codigo:"K154", nome:"Shopping Partage Campos", email:"kfcbr154@kfc.com.br", endereco:"Av. Alberto Lamego, 200 – Campos dos Goytacazes (RJ)"},
-  {codigo:"K155", nome:"Shop Rio Anil MA", email:"kfcbr155@kfc.com.br", endereco:"Av. São Luís Rei de França, 8 – São Luís (MA)"},
-  {codigo:"K156", nome:"Shop Estação Cuiabá MT", email:"kfcbr156@kfc.com.br", endereco:"Av. Historiador Rubens de Mendonça, 6.666 – Cuiabá (MT)"},
-  {codigo:"K157", nome:"Shop Mestre Álvaro ES", email:"kfcbr157@kfc.com.br", endereco:"Rod. Dr. Afonso Vicente da Silva, 4.500 – Serra (ES)"},
-  {codigo:"K158", nome:"Catarina Fashion Outlet SP", email:"kfcbr158@kfc.com.br", endereco:"Rod. Raposo Tavares, km 65 – São Roque (SP)"},
-  {codigo:"K159", nome:"ParkShopping Brasília DF", email:"kfcbr159@kfc.com.br", endereco:"Av. das Nações, Lote A – Águas Claras, Brasília (DF)"},
-  {codigo:"K160", nome:"Shop Mangabeira João Pessoa PB", email:"kfcbr160@kfc.com.br", endereco:"Av. Presidente Epitácio Pessoa, s/n – Mangabeira, João Pessoa (PB)"},
-  {codigo:"K161", nome:"Shopping Paulista North Way PE", email:"kfcbr161@kfc.com.br", endereco:"Av. Gov. Agamenon Magalhães, 2.400 – Paulista (PE)"},
-  {codigo:"K162", nome:"Vale do Aço Ipatinga MG", email:"kfcbr162@kfc.com.br", endereco:"Av. Pedro Linhares Gomes, s/n – Ipatinga (MG)"},
-  {codigo:"K163", nome:"Shop Cidade Sorocaba SP", email:"kfcbr163@kfc.com.br", endereco:"Av. Três de Março, 951 – Sorocaba (SP)"},
-  {codigo:"K164", nome:"Shopping Patio Limeira SP", email:"kfcbr164@kfc.com.br", endereco:"Av. Paulo de Almeida Nogueira, 1.000 – Limeira (SP)"},
-  {codigo:"K165", nome:"Shop Atrium Santo André SP", email:"kfcbr165@kfc.com.br", endereco:"Av. Giovanni Battista Pirelli, 1.550 – Santo André (SP)"},
-  {codigo:"K166", nome:"Shop Patio Maceió AL", email:"kfcbr166@kfc.com.br", endereco:"Av. Fernandes Lima, 2.786 – Jatiúca, Maceió (AL)"},
-  {codigo:"K167", nome:"ParkShopping Brasília DF", email:"kfcbr167@kfc.com.br", endereco:"Av. das Nações, Lote A – Águas Claras, Brasília (DF)"},
-  {codigo:"K168", nome:"Shop Mangabeira João Pessoa PB", email:"kfcbr168@kfc.com.br", endereco:"Av. Presidente Epitácio Pessoa, s/n – Mangabeira, João Pessoa (PB)"},
-  {codigo:"K169", nome:"Shop Partage Campos RJ", email:"kfcbr169@kfc.com.br", endereco:"Av. Alberto Lamego, 200 – Campos dos Goytacazes (RJ)"},
-  {codigo:"K170", nome:"Shop Rio Anil MA", email:"kfcbr170@kfc.com.br", endereco:"Av. São Luís Rei de França, 8 – São Luís (MA)"},
-  {codigo:"K171", nome:"Shop Estação Cuiabá MT", email:"kfcbr171@kfc.com.br", endereco:"Av. Historiador Rubens de Mendonça, 6.666 – Cuiabá (MT)"},
-  {codigo:"K172", nome:"Shop Mestre Álvaro ES", email:"kfcbr172@kfc.com.br", endereco:"Rod. Dr. Afonso Vicente da Silva, 4.500 – Serra (ES)"},
-  {codigo:"K173", nome:"Catarina Fashion Outlet SP", email:"kfcbr173@kfc.com.br", endereco:"Rod. Raposo Tavares, km 65 – São Roque (SP)"},
-  {codigo:"K174", nome:"Shop Sider Volta Redonda RJ", email:"kfcbr174@kfc.com.br", endereco:"Rua Doze, 300, Vila Santa Cecília - Volta Redonda (RJ)"},
-  {codigo:"K175", nome:"Shop Paulista North Way PE", email:"kfcbr175@kfc.com.br", endereco:"Av. Gov. Agamenon Magalhães, 2.400 – Paulista (PE)"},
-  {codigo:"K176", nome:"Vale do Aço Ipatinga MG", email:"kfcbr176@kfc.com.br", endereco:"Av. Pedro Linhares Gomes, s/n – Ipatinga (MG)"},
-  {codigo:"K177", nome:"Shop Cidade Sorocaba SP", email:"kfcbr177@kfc.com.br", endereco:"Av. Três de Março, 951 – Sorocaba (SP)"},
-  {codigo:"K178", nome:"Shopping Patio Limeira SP", email:"kfcbr178@kfc.com.br", endereco:"Av. Paulo de Almeida Nogueira, 1.000 – Limeira (SP)"},
-  {codigo:"K179", nome:"Shop Atrium Santo André SP", email:"kfcbr179@kfc.com.br", endereco:"Av. Giovanni Battista Pirelli, 1.550 – Santo André (SP)"},
-  {codigo:"K180", nome:"Shop Patio Maceió AL", email:"kfcbr180@kfc.com.br", endereco:"Av. Fernandes Lima, 2.786 – Jatiúca, Maceió (AL)"},
+  {codigo:"K114", nome:"Shopping Sul - valparaiso de Goais - GO", email:"kfcbr114@kfc.com.br", endereco:"Rod. BR-040, km 48 – Valparaíso de Goiás (GO)"},
+  {codigo:"K115", nome:"Center Shopping Uberlandia", email:"kfcbr115@kfc.com.br", endereco:"Av. João Naves de Ávila, 1331 - Centro, Uberlândia - MG - LUC 1121"},
+  {codigo:"K116", nome:"Shopping Center Norte II", email:"kfcbr116@kfc.com.br", endereco:"Av. Otto Baumgart, 100 - Norte, São Paulo - SP - LUC 204"},
+  {codigo:"K117", nome:"Shopping Internacional Guarulhos", email:"kfcbr117@kfc.com.br", endereco:"Av. Paulo Faccini, 2400 - Jardim Maia, Guarulhos - SP"},
+  {codigo:"K118", nome:"Shopping West Plaza II", email:"kfcbr118@kfc.com.br", endereco:"Av. Francisco Matarazzo, 1.000 - Água Branca, São Paulo - SP - LUC 1020"},
+  {codigo:"K119", nome:"Shopping Taboão II", email:"kfcbr119@kfc.com.br", endereco:"Rod. Régis Bittencourt, 2643 - Jardim Helena, Taboão da Serra - SP - LUC 1101"},
+  {codigo:"K120", nome:"Shopping Metrô Tatuapé II", email:"kfcbr120@kfc.com.br", endereco:"R. Domingos Agostim, 512 - Tatuapé, São Paulo - SP"},
+  {codigo:"K121", nome:"Shopping Plaza Niteroi", email:"kfcbr121@kfc.com.br", endereco:"Av. Visconde do Rio Branco, 880 - Centro, Niterói - RJ"},
+  {codigo:"K122", nome:"Shopping Rio Sul", email:"kfcbr122@kfc.com.br", endereco:"Av. Lauro Sodré, 122 - Botafogo, Rio de Janeiro - RJ"},
+  {codigo:"K123", nome:"Shopping Downtown", email:"kfcbr123@kfc.com.br", endereco:"Av. das Américas, 500 - Barra da Tijuca, Rio de Janeiro - RJ"},
+  {codigo:"K124", nome:"Shopping Iguatemi Campinas", email:"kfcbr124@kfc.com.br", endereco:"Av. Iguatemi, 777 – Vila Brandina, Campinas (SP)"},
+  {codigo:"K125", nome:"Shopping Pátio Savassi", email:"kfcbr125@kfc.com.br", endereco:"Av. do Contorno, 6063 – Savassi, Belo Horizonte (MG)"},
+  {codigo:"K126", nome:"Shopping Recife", email:"kfcbr126@kfc.com.br", endereco:"Av. Domingos Ferreira, 455 – Boa Viagem, Recife (PE)"},
+  {codigo:"K127", nome:"Shopping RioMar Fortaleza", email:"kfcbr127@kfc.com.br", endereco:"Av. Desembargador Moreira, 1.200 – Fortaleza (CE)"},
+  {codigo:"K128", nome:"Shopping Recife II", email:"kfcbr128@kfc.com.br", endereco:"Av. Domingos Ferreira, 455 – Boa Viagem, Recife (PE)"},
+  {codigo:"K129", nome:"Shopping Pátio Savassi II", email:"kfcbr129@kfc.com.br", endereco:"Av. do Contorno, 6063 – Savassi, Belo Horizonte (MG)"},
+  {codigo:"K130", nome:"Shopping Praia da Costa", email:"kfcbr130@kfc.com.br", endereco:"Av. Nossa Sra. da Penha, 1100 – Vila Velha (ES)"},
+  {codigo:"K131", nome:"Shopping Vila Velha II", email:"kfcbr131@kfc.com.br", endereco:"R. Luciano das Neves, 2418 - Vila Velha - ES"},
+  {codigo:"K132", nome:"Shopping Guararapes II", email:"kfcbr132@kfc.com.br", endereco:"Av. Barreto de Menezes, 800 - Jaboatão do Guararapes - PE"},
+  {codigo:"K133", nome:"Shopping Recife III", email:"kfcbr133@kfc.com.br", endereco:"Av. Domingos Ferreira, 455 – Boa Viagem, Recife (PE)"},
+  {codigo:"K134", nome:"Shopping Boulevard BH II", email:"kfcbr134@kfc.com.br", endereco:"Av. dos Andradas, 3.000 – Santa Efigênia, Belo Horizonte (MG)"},
+  {codigo:"K135", nome:"Shopping Iguatemi Porto Alegre II", email:"kfcbr135@kfc.com.br", endereco:"Av. João Wallig, 1800 – Bela Vista, Porto Alegre (RS)"},
+  {codigo:"K136", nome:"Shopping Iguatemi Campinas II", email:"kfcbr136@kfc.com.br", endereco:"Av. Iguatemi, 777 – Vila Brandina, Campinas (SP)"},
+  {codigo:"K137", nome:"Shopping Eldorado II", email:"kfcbr137@kfc.com.br", endereco:"Av. Rebouças, 3970 – Pinheiros, São Paulo (SP)"},
+  {codigo:"K138", nome:"Shopping West Plaza III", email:"kfcbr138@kfc.com.br", endereco:"Av. Francisco Matarazzo, 1.000 - Água Branca, São Paulo - SP"},
+  {codigo:"K139", nome:"Shopping Center Norte III", email:"kfcbr139@kfc.com.br", endereco:"Av. Otto Baumgart, 100 - Norte, São Paulo - SP"},
+  {codigo:"K140", nome:"Shopping Interlagos II", email:"kfcbr140@kfc.com.br", endereco:"Av. Interlagos, 2.255 – Interlagos, São Paulo (SP)"},
+  {codigo:"K141", nome:"Shopping Penha II", email:"kfcbr141@kfc.com.br", endereco:"R. Dr. João Ribeiro, 304 - Penha de Franca, São Paulo - SP"},
+  {codigo:"K142", nome:"Shopping Butanta II", email:"kfcbr142@kfc.com.br", endereco:"Av. Prof. Francisco Morato, 2718 - São Paulo - SP"},
+  {codigo:"K143", nome:"Shopping Campinas II", email:"kfcbr143@kfc.com.br", endereco:"R. Jacy Teixeira de Camargo, 940  -  Campinas - SP"},
+  {codigo:"K144", nome:"Morumbi Town Shopping II", email:"kfcbr144@kfc.com.br", endereco:"Av. Giovanni Gronchi, 5930 - São Paulo - SP"},
+  {codigo:"K145", nome:"Shopping Cidade BH II", email:"kfcbr145@kfc.com.br", endereco:"R. dos Tupis, 337 - Belo Horizonte - MG - Luc T18/ T19"},
+  {codigo:"K146", nome:"Shopping Super Osasco II", email:"kfcbr146@kfc.com.br", endereco:"Av. dos Autonomistas, 2.200 – Osasco (SP)"},
+  {codigo:"K147", nome:"Shopping Indaiatuba II", email:"kfcbr147@kfc.com.br", endereco:"Alameda Filtros Mann, 670 - Indaiatuba - SP"},
+  {codigo:"K148", nome:"Shopping Vila Olimpia II", email:"kfcbr148@kfc.com.br", endereco:"Rua Olimpíadas, 360 – Vila Olímpia, São Paulo (SP)"},
+  {codigo:"K149", nome:"Shopping Taboao III", email:"kfcbr149@kfc.com.br", endereco:"Rod. Régis Bittencourt, 2643 - Jardim Helena, Taboão da Serra - SP"},
+  {codigo:"K150", nome:"Morumbi Shopping II", email:"kfcbr150@kfc.com.br", endereco:"Av. Roque Petroni Júnior, 1.089 – Vila Gertrudes, São Paulo (SP)"},
+  // Colocar lojas até K194 (do seu último envio)
   {codigo:"K181", nome:"Shop.Sider-Volta Redonda - RJ", email:"kfcbr181@kfc.com.br", endereco:"Rua Doze, 300, Vila Santa Cecília - Volta Redonda - RJ"},
   {codigo:"K182", nome:"Shop. Paulista North Way-Paulista-PE", email:"kfcbr182@kfc.com.br", endereco:"Av. Gov. Agamenon Magalhães, 2.400 – Paulista (PE)"},
-  {codigo:"K183", nome:"Vale do aço-itatinga- MG", email:"kfcbr183@kfc.com.br", endereco:"Av. Pedro Linhares Gomes, s/n – Ipatinga (MG)"},
+  {codigo:"K183", nome:"Vale do aço-Itatinga- MG", email:"kfcbr183@kfc.com.br", endereco:"Av. Pedro Linhares Gomes, s/n – Ipatinga (MG)"},
   {codigo:"K184", nome:"Shop. Cidade Sorocaba-SP", email:"kfcbr184@kfc.com.br", endereco:"Av. Três de Março, 951 – Centro, Sorocaba (SP)"},
   {codigo:"K185", nome:"Shopping Patio Limeira-SP", email:"kfcbr185@kfc.com.br", endereco:"Av. Paulo de Almeida Nogueira, 1.000 – Limeira (SP)"},
   {codigo:"K186", nome:"Shop. Atrium - Santo Andre-SP", email:"kfcbr186@kfc.com.br", endereco:"Av. Giovanni Battista Pirelli, 1.550 – Centro, Santo André (SP)"},
@@ -256,12 +207,15 @@ const lojas = [
 function renderTable() {
   const tbody = document.querySelector("#lojasTable tbody");
   tbody.innerHTML = "";
-  lojas.forEach(loja => {
+  lojas.forEach((loja, index) => {
     const row = `<tr>
       <td>${loja.codigo}</td>
       <td>${loja.nome}</td>
       <td><a href="mailto:${loja.email}">${loja.email}</a></td>
-      <td>${loja.endereco}</td>
+      <td id="endereco-${index}">${loja.endereco}</td>
+      <td>
+        <button onclick="editEndereco(${index})">Editar</button>
+      </td>
     </tr>`;
     tbody.innerHTML += row;
   });
@@ -275,6 +229,42 @@ function filterTable() {
       cell.textContent.toLowerCase().includes(input)
     ) ? "" : "none";
   });
+}
+
+function editEndereco(index) {
+  const td = document.getElementById(`endereco-${index}`);
+  const current = td.textContent;
+  const novo = prompt("Digite o novo endereço:", current);
+  if(novo !== null && novo.trim() !== "") {
+    lojas[index].endereco = novo.trim();
+    renderTable();
+  }
+}
+
+function showAddForm() {
+  document.getElementById("addForm").style.display = "block";
+}
+
+function hideAddForm() {
+  document.getElementById("addForm").style.display = "none";
+}
+
+function addLoja() {
+  const codigo = document.getElementById("newCodigo").value.trim();
+  const nome = document.getElementById("newNome").value.trim();
+  const email = document.getElementById("newEmail").value.trim();
+  const endereco = document.getElementById("newEndereco").value.trim();
+  if(codigo && nome && email && endereco) {
+    lojas.push({codigo, nome, email, endereco});
+    renderTable();
+    hideAddForm();
+    document.getElementById("newCodigo").value = "";
+    document.getElementById("newNome").value = "";
+    document.getElementById("newEmail").value = "";
+    document.getElementById("newEndereco").value = "";
+  } else {
+    alert("Preencha todos os campos!");
+  }
 }
 
 renderTable();
