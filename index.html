@@ -48,7 +48,8 @@
     const DATA = {
       remotos: [
         {nome:'AnyDesk', desc:'Acesso remoto para suporte rápido.', link:'https://base-imc.vercel.app/aplicativos/anydesk.exe'},
-        {nome:'TeamViewer', desc:'Controle remoto e suporte.', link:'#'}
+        {nome:'TeamViewer', desc:'Controle remoto e suporte.', link:'#'},
+        {nome:'VNC Viewer', desc:'Software de acesso remoto da RealVNC.', link:'https://www.realvnc.com/en/connect/download/viewer/?lai_vid=l2zKNkO3qHy8l&lai_sr=5-9&lai_sl=l'}
       ],
       drivers: [
         {nome:'Driver Impressora X', desc:'Driver oficial da impressora X.', link:'#'},
@@ -108,7 +109,11 @@
       const list = DATA[category] || [];
       let html = `<div class='top'><div><h1 class='title'>${capitalize(category)}</h1><p class='subtitle'>Clique em um item para abrir a página dedicada.</p></div></div><div class='grid'>`;
       list.forEach(it => {
-        html += `<div class='card'>\n<h3>${it.nome}</h3>\n<p>${it.desc}</p>\n<button class='btn' onclick="openSingle('${escapeForJs(it.nome)}','${escapeForJs(it.link)}')">Abrir</button>\n</div>`;
+        html += `<div class='card'>
+<h3>${it.nome}</h3>
+<p>${it.desc}</p>
+<button class='btn' onclick="openSingle('${escapeForJs(it.nome)}','${escapeForJs(it.link)}')">Abrir</button>
+</div>`;
       });
       html += '</div>';
       document.getElementById('content').innerHTML = html;
@@ -155,7 +160,8 @@
 
     // Helpers
     function capitalize(s){ return s.charAt(0).toUpperCase() + s.slice(1); }
-    function escapeForJs(s){ return String(s).replace(/'/g, "\\'").replace(/\n/g,''); }
+    function escapeForJs(s){ return String(s).replace(/'/g, "\'").replace(/
+/g,''); }
 
     // Sidebar link clicks
     document.querySelectorAll('.nav-link').forEach(el=>{
