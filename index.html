@@ -1,207 +1,94 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Portal de Suporte</title>
-  <style>
-    :root {
-      --bg: #0d0f12;
-      --card: #15181d;
-      --primary: #4c8bff;
-      --text: #e9ecf1;
-      --text-secondary: #9aa5b8;
-      --border: #1f242b;
-      --radius: 14px;
-      --shadow: 0 4px 20px rgba(0,0,0,0.4);
-    }
+import tkinter as tk
+from tkinter import ttk, messagebox
+import webbrowser
+import os
 
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: var(--bg);
-      color: var(--text);
-    }
+# ------------------- Funções das Páginas -------------------
 
-    header {
-      padding: 25px;
-      text-align: center;
-      font-size: 26px;
-      font-weight: bold;
-      background: #111418;
-      box-shadow: var(--shadow);
-    }
+def abrir_pagina_simples(titulo, texto):
+    janela = tk.Toplevel()
+    janela.title(titulo)
+    janela.geometry("500x400+500+200")
 
-    #searchBox {
-      margin: 25px auto;
-      max-width: 600px;
-      display: flex;
-      gap: 10px;
-    }
+    frame = tk.Frame(janela)
+    frame.pack(expand=True)
 
-    #searchInput {
-      flex: 1;
-      padding: 14px;
-      border-radius: var(--radius);
-      border: 1px solid var(--border);
-      background: var(--card);
-      color: var(--text);
-      font-size: 16px;
-    }
+    label = tk.Label(frame, text=texto, font=("Arial", 14))
+    label.pack(pady=20)
 
-    #searchBtn {
-      padding: 14px 20px;
-      border-radius: var(--radius);
-      border: none;
-      background: var(--primary);
-      color: #fff;
-      cursor: pointer;
-      font-size: 16px;
-      transition: 0.2s;
-    }
+    btn_voltar = tk.Button(frame, text="Voltar", width=15, command=janela.destroy)
+    btn_voltar.pack(pady=20)
 
-    #searchBtn:hover {
-      opacity: 0.85;
-    }
 
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-      gap: 20px;
-      padding: 25px;
-      max-width: 1200px;
-      margin: auto;
-    }
+def abrir_acesso_remoto():
+    janela = tk.Toplevel()
+    janela.title("Acesso Remoto")
+    janela.geometry("600x400+500+200")
 
-    .card {
-      background: var(--card);
-      padding: 20px;
-      border-radius: var(--radius);
-      border: 1px solid var(--border);
-      box-shadow: var(--shadow);
-      transition: 0.2s;
-    }
+    frame = tk.Frame(janela)
+    frame.pack(expand=True)
 
-    .card:hover {
-      transform: translateY(-4px);
-      border-color: var(--primary);
-    }
+    titulo = tk.Label(frame, text="Acesso Remoto", font=("Arial", 18, "bold"))
+    titulo.pack(pady=10)
 
-    .card h3 {
-      margin-top: 0;
-      margin-bottom: 10px;
-      font-size: 19px;
-      color: var(--primary);
-    }
+    label_vnc = tk.Label(frame, text="Clique abaixo para baixar o VNC Viewer:", font=("Arial", 12))
+    label_vnc.pack(pady=10)
 
-    .card p {
-      margin: 0 0 10px;
-      font-size: 14px;
-      color: var(--text-secondary);
-    }
+    def abrir_vnc():
+        webbrowser.open("https://www.realvnc.com/en/connect/download/viewer/?lai_vid=l2zKNkO3qHy8l&lai_sr=5-9&lai_sl=l")
 
-    .card a {
-      display: inline-block;
-      padding: 10px 14px;
-      background: var(--primary);
-      color: white;
-      border-radius: var(--radius);
-      text-decoration: none;
-      transition: 0.2s;
-    }
+    btn_vnc = tk.Button(frame, text="Baixar VNC Viewer", width=25, command=abrir_vnc)
+    btn_vnc.pack(pady=10)
 
-    .card a:hover {
-      opacity: 0.8;
-    }
-  </style>
-</head>
-<body>
+    btn_voltar = tk.Button(frame, text="Voltar", width=15, command=janela.destroy)
+    btn_voltar.pack(pady=20)
 
-  <header>Portal de Suporte • Programas e Manuais</header>
 
-  <div id="searchBox">
-    <input id="searchInput" type="text" placeholder="Buscar programas, manuais ou processos..." />
-    <button id="searchBtn">Buscar</button>
-  </div>
+def abrir_lojas():
+    abrir_pagina_simples("Lojas", "Página de Lojas em construção...")
 
-  <div class="grid" id="itemsGrid"></div>
 
-  <script>
-    const items = [
-      {
-        nome: "VNC / Acesso Lojas",
-        desc: "Ferramenta de acesso remoto usada nas lojas.",
-        link: "https://base-imc.vercel.app/aplicativos/anydesk.exe"
-      },
-      {
-        nome: "Aplicativos",
-        desc: "Lista completa de programas e instaladores.",
-        link: "#"
-      },
-      {
-        nome: "Contatos",
-        desc: "Telefones e e-mails úteis por setor.",
-        link: "#"
-      },
-      {
-        nome: "Links de Acesso",
-        desc: "Sistemas internos, VPN, relatórios e mais.",
-        link: "#"
-      },
-      {
-        nome: "Lojas",
-        desc: "Lista completa das unidades com informações.",
-        link: "#"
-      },
-      {
-        nome: "MenuBoard",
-        desc: "Ferramentas e processos do MenuBoard.",
-        link: "#"
-      },
-      {
-        nome: "TeamViewer",
-        desc: "Ferramenta de controle remoto e suporte.",
-        link: "#"
-      },
-      {
-        nome: "Manual de Integração",
-        desc: "Passo a passo de acesso inicial.",
-        link: "#"
-      },
-      {
-        nome: "Instalador Impressora",
-        desc: "Driver padrão atualizado.",
-        link: "#"
-      },
-      {
-        nome: "Chamados TI",
-        desc: "Abertura de tickets e acompanhamento.",
-        link: "#"
-      }
-    ];
+def abrir_contatos():
+    abrir_pagina_simples("Contatos", "Contatos da equipe e setores...")
 
-    function render(lista) {
-      const grid = document.getElementById("itemsGrid");
-      grid.innerHTML = "";
 
-      lista.forEach(i => {
-        grid.innerHTML += `
-          <div class="card">
-            <h3>${i.nome}</h3>
-            <p>${i.desc}</p>
-            <a href="${i.link}" target="_blank">Acessar</a>
-          </div>
-        `;
-      });
-    }
+def abrir_links():
+    abrir_pagina_simples("Links de Acesso", "Links úteis e principais sistemas...")
 
-    render(items);
 
-    document.getElementById("searchBtn").addEventListener("click", () => {
-      const termo = document.getElementById("searchInput").value.toLowerCase();
-      render(items.filter(i => i.nome.toLowerCase().includes(termo)));
-    });
-  </script>
+def abrir_menuboard():
+    abrir_pagina_simples("MenuBoard", "Configurações e acesso ao MenuBoard...")
 
-</body>
-</html>
+
+def abrir_aplicativos():
+    abrir_pagina_simples("Aplicativos", "Aplicativos disponíveis para instalação...")
+
+
+# ------------------- JANELA PRINCIPAL -------------------
+root = tk.Tk()
+root.title("Painel Principal KFC")
+root.geometry("600x500+450+150")
+root.resizable(False, False)
+
+frame_principal = tk.Frame(root)
+frame_principal.pack(expand=True)
+
+label_titulo = tk.Label(frame_principal, text="Painel de Atalhos", font=("Arial", 22, "bold"))
+label_titulo.pack(pady=20)
+
+# ------------------- Botões -------------------
+botoes = [
+    ("Aplicativos", abrir_aplicativos),
+    ("Contatos", abrir_contatos),
+    ("Links de Acesso", abrir_links),
+    ("Lojas", abrir_lojas),
+    ("MenuBoard", abrir_menuboard),
+    ("Acesso Remoto", abrir_acesso_remoto),
+]
+
+for texto, comando in botoes:
+    btn = tk.Button(frame_principal, text=texto, width=20, height=2, command=comando)
+    btn.pack(pady=5)
+
+# ------------------- Loop Tkinter -------------------
+root.mainloop()
