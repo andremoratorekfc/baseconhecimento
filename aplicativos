@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Aplicativos • Portal de Suporte</title>
+<style>/* mesmo estilo do inicio.html */</style>
+</head>
+<body>
+
+<header>Aplicativos</header>
+
+<nav>
+  <a href="inicio.html">Início</a>
+  <a href="aplicativos.html">Aplicativos</a>
+  <a href="contatos.html">Contatos</a>
+  <a href="links.html">Links de Acesso</a>
+  <a href="lojas.html">Lojas</a>
+  <a href="menuboard.html">MenuBoard</a>
+  <a href="acesso.html">Acesso Remoto</a>
+</nav>
+
+<div class="container">
+  <h2>Lista de Aplicativos</h2>
+  <p>Conteúdo de aplicativos, como AnyDesk, Chrome, WinRAR, etc.</p>
+</div>
+
+</body>
+</html>
