@@ -7,13 +7,15 @@
 <style>
 body {
     font-family: Arial, sans-serif;
-    background: #f9f9f9;
+    background: #000; /* fundo preto */
+    color: #fff;      /* texto branco */
     margin: 0;
     padding: 0;
 }
 h1 {
     text-align: center;
     margin: 20px 0;
+    color: #d62728; /* vermelho KFC */
 }
 .grid {
     display: grid;
@@ -22,9 +24,9 @@ h1 {
     padding: 20px;
 }
 .card {
-    background: #fff;
+    background: #111; /* escuro, contraste com fundo */
     border-radius: 10px;
-    box-shadow: 0 0 8px rgba(0,0,0,0.1);
+    box-shadow: 0 0 8px rgba(255,255,255,0.1);
     padding: 15px;
     transition: transform 0.2s;
 }
@@ -71,7 +73,72 @@ const lojas = [
     {codigo:"K045", nome:"Shopping Litoral Plaza", email:"kfcbr045@kfc.com.br", endereco:"Av. Ayrton Senna da Silva, 1.511 – Praia Grande (SP)"},
     {codigo:"K047", nome:"Osasco Plaza Shopping", email:"kfcbr047@kfc.com.br", endereco:"R. Ten. Avelar Pires de Azevedo, 81 – Centro, Osasco (SP)"},
     {codigo:"K048", nome:"Shopping Metro Santa Cruz", email:"kfcbr048@kfc.com.br", endereco:"Rua Domingos de Moraes, 2.564 – Vila Mariana, São Paulo (SP)"},
-    // Pode adicionar todas as outras lojas seguindo o mesmo formato
+    {codigo:"K049", nome:"Shopping Eldorado", email:"kfcbr049@kfc.com.br", endereco:"Av. Rebouças, 3970 – Pinheiros, São Paulo (SP)"},
+    {codigo:"K050", nome:"Shopping Metro Tatuape", email:"kfcbr050@kfc.com.br", endereco:"R. Domingos Agustim, s/n - São Paulo - SP - Sala Comercial N 513"},
+    {codigo:"K051", nome:"Shopping Tambore", email:"kfcbr051@kfc.com.br", endereco:"Avenida Piracema, 669 - Tamboré, Barueri - SP"},
+    {codigo:"K052", nome:"Park Shopping Sao Caetano", email:"kfcbr052@kfc.com.br", endereco:"Alameda Terracota, 545 - São Caetano do Sul - SP - Loja 2096"},
+    {codigo:"K053", nome:"Shopping Uniao Osasco", email:"kfcbr053@kfc.com.br", endereco:"Av. dos Autonomistas, 4840 – Vila Yara, Osasco (SP)"},
+    {codigo:"K054", nome:"Mooca Plaza Shopping", email:"kfcbr054@kfc.com.br", endereco:"R. Cap. Pacheco e Chaves, 313 - Mooca, São Paulo - SP"},
+    {codigo:"K055", nome:"Shopping Center 3", email:"kfcbr055@kfc.com.br", endereco:"Av. Paulista, 2064 - Cerqueira César, São Paulo - SP"},
+    {codigo:"K056", nome:"Shopping Mais", email:"kfcbr056@kfc.com.br", endereco:"Rua Amador Bueno, 229 – Santo Amaro, São Paulo (SP)"},
+    {codigo:"K057", nome:"Parque Dom Pedro Shopping", email:"kfcbr057@kfc.com.br", endereco:"Av. Guilherme Campos, 500 – Jardim Santa Genebra, Campinas (SP)"},
+    {codigo:"K058", nome:"Grand Plaza Shopping", email:"kfcbr058@kfc.com.br", endereco:"Av. Industrial, 600 - Jardim, Santo André - SP"},
+    {codigo:"K059", nome:"Shopping Center Norte", email:"kfcbr059@kfc.com.br", endereco:"Tv. Casalbuono, 120 - Vila Guilherme, São Paulo - SP"},
+    {codigo:"K060", nome:"Shopping Interlagos", email:"kfcbr060@kfc.com.br", endereco:"Av. Interlagos, 2.255 – Interlagos, São Paulo (SP)"},
+    {codigo:"K061", nome:"Shopping West Plaza", email:"kfcbr061@kfc.com.br", endereco:"Av. Francisco Matarazzo, s/n - Água Branca, São Paulo - SP"},
+    {codigo:"K062", nome:"Maua Plaza Shopping", email:"kfcbr062@kfc.com.br", endereco:"Av. Gov. Mario Covas Júnior, 1 - Centro, Mauá - SP"},
+    {codigo:"K063", nome:"Jundiai Shopping", email:"kfcbr063@kfc.com.br", endereco:"Av. 9 de Julho, 3333 - Anhangabaú, Jundiaí - SP"},
+    {codigo:"K064", nome:"Shopping Light", email:"kfcbr064@kfc.com.br", endereco:"R. Cel. Xavier de Toledo, 23 - República, São Paulo - SP"},
+    {codigo:"K065", nome:"Shopping Metro Boulevard Tatuape", email:"kfcbr065@kfc.com.br", endereco:"R. Gonçalves Crespo, 78 -Tatuapé, São Paulo - SP"},
+    {codigo:"K066", nome:"Shopping Penha", email:"kfcbr066@kfc.com.br", endereco:"R. Dr. João Ribeiro, 304 - Penha de Franca, São Paulo - SP"},
+    {codigo:"K067", nome:"Parque Shopping Maia", email:"kfcbr067@kfc.com.br", endereco:"Av. Bartolomeu de Carlos, 230 - Jardim Flor da Montanha, Guarulhos - SP"},
+    {codigo:"K068", nome:"Shopping Max Jundiaí", email:"kfcbr068@kfc.com.br", endereco:"Av. Antônio Frederico Ozanan, 6000 - Vila Rio Branco, Jundiaí - SP"},
+    {codigo:"K069", nome:"Top Center", email:"kfcbr069@kfc.com.br", endereco:"Av. Paulista, 854 - Bela Vista, São Paulo - SP"},
+    {codigo:"K072", nome:"Shopping Canoas", email:"kfcbr072@kfc.com.br", endereco:"Av. Farroupilha, 4.545 – Canoas (RS)"},
+    {codigo:"K073", nome:"Shopping Wallig", email:"kfcbr073@kfc.com.br", endereco:"Av. Assis Brasil, 2611 - Cristo Redentor, Porto Alegre - RS"},
+    {codigo:"K074", nome:"Shopping Bourbon", email:"kfcbr074@kfc.com.br", endereco:"R. Palestra Itália, 500 - São Paulo - SP"},
+    {codigo:"K075", nome:"Shopping Contagem", email:"kfcbr075@kfc.com.br", endereco:"Av. Severino Ballesteros Rodrigues, 850 - Contagem - MG"},
+    {codigo:"K076", nome:"Shopping Butanta", email:"kfcbr076@kfc.com.br", endereco:"Av. Prof. Francisco Morato, 2718 - São Paulo - SP"},
+    {codigo:"K077", nome:"Shopping Campinas", email:"kfcbr077@kfc.com.br", endereco:"R. Jacy Teixeira de Camargo, 940 - Campinas - SP"},
+    {codigo:"K078", nome:"Morumbi Town Shopping", email:"kfcbr078@kfc.com.br", endereco:"Av. Giovanni Gronchi, 5930 - São Paulo - SP"},
+    {codigo:"K079", nome:"Shopping Cidade BH", email:"kfcbr079@kfc.com.br", endereco:"R. dos Tupis, 337 - Belo Horizonte - MG - Luc T18/ T19"},
+    {codigo:"K080", nome:"Shopping Super Osasco", email:"kfcbr080@kfc.com.br", endereco:"Av. dos Autonomistas, 2.200 – Osasco (SP)"},
+    {codigo:"K081", nome:"Shopping Indaiatuba", email:"kfcbr081@kfc.com.br", endereco:"Alameda Filtros Mann, 670 - Indaiatuba - SP"},
+    {codigo:"K082", nome:"Shopping Vila Olimpia", email:"kfcbr082@kfc.com.br", endereco:"Rua Olimpíadas, 360 – Vila Olímpia, São Paulo (SP)"},
+    {codigo:"K083", nome:"Shopping Taboao", email:"kfcbr083@kfc.com.br", endereco:"Rod. Régis Bittencourt, 2643 - Jardim Helena, Taboão da Serra - SP"},
+    {codigo:"K084", nome:"Morumbi Shopping", email:"kfcbr084@kfc.com.br", endereco:"Av. Roque Petroni Júnior, 1.089 – Vila Gertrudes, São Paulo (SP)"},
+    {codigo:"K086", nome:"Central Plaza", email:"kfcbr086@kfc.com.br", endereco:"Av. Dr. Francisco Mesquita, 1000 - Vila Prudente, São Paulo - SP"},
+    {codigo:"K087", nome:"Park Shopping Canoas", email:"kfcbr087@kfc.com.br", endereco:"Av. Farroupilha, 4545 - Canoas - RS"},
+    {codigo:"K088", nome:"Carioca Shopping", email:"kfcbr088@kfc.com.br", endereco:"Av. Vicente de Carvalho, 909 – Vila da Penha, Rio de Janeiro (RJ)"},
+    {codigo:"K089", nome:"MidWay Mall", email:"kfcbr089@kfc.com.br", endereco:"Av. Bernardo Vieira, 3775 - Natal - RN"},
+    {codigo:"K090", nome:"Shopping Iguatemi Porto Alegre", email:"kfcbr090@kfc.com.br", endereco:"Av. João Wallig, 1800 – Bela Vista, Porto Alegre (RS)"},
+    {codigo:"K091", nome:"Shopping Boulevard Rio", email:"kfcbr091@kfc.com.br", endereco:"R. Barão de São Francisco, 236 - Rio de Janeiro - RJ - 3441"},
+    {codigo:"K092", nome:"Via Parque Shopping", email:"kfcbr092@kfc.com.br", endereco:"Av. Ayrton Senna, 3000 - Rio de Janeiro - RJ"},
+    {codigo:"K093", nome:"Shopping Patteo Olinda", email:"kfcbr093@kfc.com.br", endereco:"R. Carmelita Muniz de Araújo, 225 - Casa Caiada, Olinda - PE"},
+    {codigo:"K094", nome:"Barra Shopping Sul", email:"kfcbr094@kfc.com.br", endereco:"Av. Diário de Notícias, 300 – Cristal, Porto Alegre (RS)"},
+    {codigo:"K095", nome:"West Shopping", email:"kfcbr095@kfc.com.br", endereco:"Est. do Mendanha, 555 - Rio de Janeiro - RJ"},
+    {codigo:"K096", nome:"Shopping Partagem Betim", email:"kfcbr096@kfc.com.br", endereco:"Rod. Fernão Dias - KM 492, 601 - São João, Betim - MG"},
+    {codigo:"K097", nome:"Shopping Guararapes", email:"kfcbr097@kfc.com.br", endereco:"Av. Barreto de Menezes, 800 - Jaboatão do Guararapes - PE"},
+    {codigo:"K098", nome:"Shopping Parangaba", email:"kfcbr098@kfc.com.br", endereco:"R. Germano Franck, 300 - Fortaleza - CE"},
+    {codigo:"K099", nome:"Maceio Shopping", email:"kfcbr099@kfc.com.br", endereco:"Av. Comendador Gustavo Paiva, 2990 - Maceió - AL"},
+    {codigo:"K100", nome:"Shopping Buriti", email:"kfcbr100@kfc.com.br", endereco:"Av. Rio Verde Q102, 104 - Vila São Tomaz, Goiânia - GO"},
+    {codigo:"K101", nome:"Shopping Tacaruna", email:"kfcbr101@kfc.com.br", endereco:"Av. Gov. Agamenon Magalhães, 605 – Casa Amarela, Recife (PE)"},
+    {codigo:"K103", nome:"Taguatinga Shopping 2", email:"kfcbr103@kfc.com.br", endereco:"QS 1, Taguatinga - 70297-400 - LUC 3013, QS 01, Lote 40 - Taguatinga, Brasília - DF - Loja 3005"},
+    {codigo:"K104", nome:"Shopping Del Rey", email:"kfcbr104@kfc.com.br", endereco:"Av. Presidente Carlos Luz, 3001 - Pampulha, Belo Horizonte - MG"},
+    {codigo:"K106", nome:"Shopping Cidade Sao Paulo", email:"kfcbr106@kfc.com.br", endereco:"Av. Paulista, 1230 - Cerqueira César, São Paulo - SP"},
+    {codigo:"K107", nome:"Shopping Vitória ES", email:"kfcbr107@kfc.com.br", endereco:"Av. Américo Buaiz, 200 – Enseada do Suá, Vitória (ES)"},
+    {codigo:"K108", nome:"Shopping Vila Velha", email:"kfcbr108@kfc.com.br", endereco:"R. Luciano das Neves, 2418 - Vila Velha - ES"},
+    {codigo:"K109", nome:"Cantareira Norte Sh", email:"kfcbr109@kfc.com.br", endereco:"Av. Raimundo Pereira de Magalhães, 11001 - Jardim Pirituba, São Paulo - SP - LUC 2051 e 2052"},
+    {codigo:"K110", nome:"Shopping Via Barreiro", email:"kfcbr110@kfc.com.br", endereco:"Av. Afonso Vaz de Melo, 640 - Barreiro, Belo Horizonte - MG - LUC 314 e 319"},
+    {codigo:"K111", nome:"Shopping Metropolitano Barra", email:"kfcbr111@kfc.com.br", endereco:"Av. Embaixador Abelardo Bueno, 1300 - Barra da Tijuca, Rio de Janeiro - RJ - LUC 2109"},
+    {codigo:"K112", nome:"BH Shopping", email:"kfcbr112@kfc.com.br", endereco:"BR-356, 3049 - Belvedere, Belo Horizonte - MG - LUC 58 E LUC 59"},
+    {codigo:"K113", nome:"Shopping Parque Botucatu", email:"kfcbr113@kfc.com.br", endereco:"Avenida Marginal Duzentos, 1050 - Vila Real, Botucatu - SP - LUC 1083"},
+    {codigo:"K114", nome:"Shopping Sul - Valparaiso de Goais", email:"kfcbr114@kfc.com.br", endereco:"Rod. BR-040, km 48 – Valparaíso de Goiás (GO)"},
+    {codigo:"K115", nome:"Center Shopping Uberlandia", email:"kfcbr115@kfc.com.br", endereco:"Av. João Naves de Ávila, 1331 - Tibery, Uberlândia - MG"},
+    {codigo:"K116", nome:"Shopping Bonsucesso", email:"kfcbr116@kfc.com.br", endereco:"Estr. Pres. Juscelino K. de Oliveira, 5308 - Jardim Albertina, Guarulhos - SP - LUC 49 e 50"},
+    {codigo:"K117", nome:"Plaza Shopping Carapicuiba", email:"kfcbr117@kfc.com.br", endereco:"Estr. Ernestina Vieira, 149 - Vila Dirce, Carapicuíba - SP"},
+    {codigo:"K118", nome:"Itaqua Garden Shopping", email:"kfcbr118@kfc.com.br", endereco:"Av. das Nações Unidas, 7.219 - Vila Gertrudes, São Paulo - SP"},
+    {codigo:"K119", nome:"Shopping Center Norte", email:"kfcbr119@kfc.com.br", endereco:"Travessa Casalbuono, 120 - Vila Guilherme, São Paulo - SP"}
 ];
 
 function renderLojas() {
