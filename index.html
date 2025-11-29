@@ -1,210 +1,107 @@
-<!--
-Company Help Portal - single-file HTML
-Created for: user
-Description: Página única contendo seção "How can we help?" com texto explicativo, lista de manuais/programas,
-atualizações de atalhos para aplicações remotas, e busca inteligente (com stub para integração de IA).
-Como usar:
-- Salve este arquivo como `index.html` e coloque os arquivos (manuais, instaladores) na pasta `files/` ao lado.
-- Para integrar uma IA de busca, conecte o evento `askAI()` a um endpoint no servidor que implemente busca/semântica.
-- Os atalhos remotos estão como exemplos (URLs). Substitua pelos seus links RDP/SSH/VPN/remote-web.
--->
-
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Portal de Suporte - Como podemos ajudar?</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Portal de Suporte</title>
   <style>
-    :root{--bg:#0f1724;--card:#0b1220;--accent:#0ea5a4;--muted:#94a3b8;--glass: rgba(255,255,255,0.03)}
-    html,body{height:100%;margin:0;font-family:Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;color:#e6eef6;background:linear-gradient(180deg,#071024 0%, #071a2c 100%);}
-    .container{max-width:1100px;margin:32px auto;padding:28px}
-    .hero{background:linear-gradient(180deg, rgba(14,165,164,0.06), rgba(14,165,164,0.02));border-radius:12px;padding:22px;box-shadow:0 6px 20px rgba(2,6,23,0.6);}
-    h1{margin:0 0 6px 0;font-size:22px}
-    p.lead{margin:0;color:var(--muted)}
-    .panel{display:grid;grid-template-columns:1fr 360px;gap:18px;margin-top:18px}
-    .card{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));padding:16px;border-radius:10px;border:1px solid rgba(255,255,255,0.03)}
-    .search{display:flex;gap:8px}
-    input[type="search"]{flex:1;padding:10px 12px;border-radius:8px;border:1px solid rgba(255,255,255,0.06);background:transparent;color:inherit}
-    button{background:var(--accent);border:none;color:#032024;padding:10px 12px;border-radius:8px;cursor:pointer}
-    .items{margin-top:12px;display:flex;flex-direction:column;gap:10px}
-    .item{padding:12px;border-radius:8px;background:var(--glass);display:flex;justify-content:space-between;align-items:center;border:1px solid rgba(255,255,255,0.02)}
-    .meta{font-size:13px;color:var(--muted)}
-    .shortcuts{display:flex;flex-direction:column;gap:8px}
-    a.short{padding:8px 10px;border-radius:8px;text-decoration:none;background:rgba(255,255,255,0.02);color:inherit;border:1px solid rgba(255,255,255,0.03);display:inline-block}
-    .ai-box{margin-top:12px}
-    textarea{width:100%;min-height:82px;padding:10px;border-radius:8px;border:1px solid rgba(255,255,255,0.06);background:transparent;color:inherit}
-    .results{margin-top:12px}
-    footer{margin-top:20px;color:var(--muted);font-size:13px}
-    @media (max-width:900px){.panel{grid-template-columns:1fr;}
-      .container{padding:18px}
-    }
+    body { font-family: Arial, sans-serif; margin: 0; background: #f2f2f2; }
+    header { background: #222; color: #fff; padding: 15px; }
+    nav a { color: #fff; margin-right: 15px; text-decoration: none; font-weight: bold; }
+    .container { padding: 20px; }
+    .section { display: none; }
+    .card { background: white; padding: 20px; border-radius: 6px; margin-bottom: 20px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+    input, button { padding: 10px; width: 100%; margin-top: 10px; }
+    button { cursor: pointer; background: #222; color: white; border: none; border-radius: 5px; }
+    button:hover { background: #444; }
   </style>
 </head>
 <body>
+  <header>
+    <h1>Portal de Suporte</h1>
+    <nav>
+      <a href="#" onclick="showSection('home')">Início</a>
+      <a href="#" onclick="showSection('manuals')">Manuais</a>
+      <a href="#" onclick="showSection('programs')">Programas</a>
+      <a href="#" onclick="showSection('tools')">Atalhos</a>
+      <a href="#" onclick="showSection('search')">Busca IA</a>
+    </nav>
+  </header>
+
   <div class="container">
-    <div class="hero card">
-      <h1>How can we help?</h1>
-      <p class="lead">Este portal foi criado para facilitar o acesso a manuais, programas de instalação e ferramentas essenciais do nosso ambiente de trabalho. Aqui você encontra atalhos para aplicações que podem ser acessadas remotamente, além de uma busca inteligente com IA para localizar rapidamente qualquer conteúdo, procedimento ou arquivo necessário.</p>
 
-      <div class="panel">
-        <!-- LEFT: Conteúdo principal -->
-        <div>
-          <div class="card">
-            <h3>Busca rápida</h3>
-            <div class="search" role="search">
-              <input id="searchInput" type="search" placeholder="Digite o que procura: manual, programa, procedimento..." aria-label="Buscar" />
-              <button id="clearBtn" title="Limpar pesquisa">Limpar</button>
-            </div>
-            <div class="items" id="resultsList" aria-live="polite">
-              <!-- resultados aparecem aqui -->
-            </div>
-          </div>
-
-          <div class="card" style="margin-top:12px">
-            <h3>Busca com IA</h3>
-            <p class="meta">Descreva o que precisa que a IA tentará localizar o melhor recurso ou criar um passo a passo resumido.</p>
-            <div class="ai-box">
-              <textarea id="aiPrompt" placeholder="Ex: "Como instalar o agente VPN no Windows 10""></textarea>
-              <div style="display:flex;gap:8px;margin-top:8px">
-                <button id="aiAsk">Perguntar à IA</button>
-                <button id="aiClear">Limpar</button>
-              </div>
-              <div class="results card" id="aiResults" style="display:none;margin-top:10px"></div>
-            </div>
-          </div>
-        </div>
-
-        <!-- RIGHT: Painel lateral com atalhos e downloads -->
-        <aside>
-          <div class="card">
-            <h3>Atalhos rápidos</h3>
-            <div class="shortcuts">
-              <a class="short" href="https://remote.example.com/app1" target="_blank" rel="noopener">Painel remoto - App 1</a>
-              <a class="short" href="rdp://server.example.com" target="_blank" rel="noopener">Acesso RDP - Servidor X (colocar seu cliente)</a>
-              <a class="short" href="ssh://user@server.example.com" target="_blank" rel="noopener">SSH - Host Y</a>
-            </div>
-          </div>
-
-          <div class="card" style="margin-top:12px">
-            <h3>Downloads</h3>
-            <div class="items" id="downloadsList">
-              <!-- links de download preenchidos pelo script -->
-            </div>
-          </div>
-
-          <div class="card" style="margin-top:12px">
-            <h3>Contato / Suporte</h3>
-            <p class="meta">Se não encontrar o que precisa, abra um chamado para a equipe de TI ou envie um e-mail para: <strong>suporte@empresa.com</strong></p>
-          </div>
-        </aside>
-
+    <!-- HOME -->
+    <div id="home" class="section">
+      <div class="card">
+        <h2>Bem-vindo ao Portal</h2>
+        <p>Aqui você encontra manuais, instaladores, atalhos de ferramentas e uma busca inteligente com IA.</p>
       </div>
-
-      <footer>
-        Dica: Use palavras-chave como nome do programa, versão, ou procedimento (ex: "VPN", "agente", "backup") para melhores resultados.
-      </footer>
     </div>
+
+    <!-- MANUAIS -->
+    <div id="manuals" class="section">
+      <div class="card">
+        <h2>Manuais</h2>
+        <ul>
+          <li><a href="files/manual1.pdf" download>Manual de Operação</a></li>
+          <li><a href="files/manual2.pdf" download>Manual Técnico</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- PROGRAMAS -->
+    <div id="programs" class="section">
+      <div class="card">
+        <h2>Programas</h2>
+        <ul>
+          <li><a href="files/instalador.exe" download>Instalador do Sistema</a></li>
+          <li><a href="files/agent.msi" download>Agente de Suporte</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- ATALHOS -->
+    <div id="tools" class="section">
+      <div class="card">
+        <h2>Atalhos Remotos</h2>
+        <ul>
+          <li><a href="https://remote.system.com" target="_blank">Acesso Remoto</a></li>
+          <li><a href="https://dash.example.com" target="_blank">Painel de Controle</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- BUSCA IA -->
+    <div id="search" class="section">
+      <div class="card">
+        <h2>Busca Inteligente (IA)</h2>
+        <input type="text" id="query" placeholder="Digite o que procura..." />
+        <button onclick="iaSearch()">Buscar</button>
+        <div id="result" style="margin-top: 20px;"></div>
+      </div>
+    </div>
+
   </div>
 
   <script>
-    // Exemplo de base de dados local (substituir por chamada a API/DB real)
-    const DATA = [
-      {id:1, type:'manual', title:'Manual: Instalação VPN (Windows)', file:'files/manual-vpn-windows.pdf', tags:['vpn','instalação','windows']},
-      {id:2, type:'program', title:'Instalador: Agente VPN v2.3', file:'files/agent-vpn-2.3.exe', tags:['vpn','agente','windows']},
-      {id:3, type:'manual', title:'Procedimento: Acesso Remoto via RDP', file:'files/proc-rdp.pdf', tags:['rdp','acesso','remoto']},
-      {id:4, type:'manual', title:'Guia: Backup e Restauração', file:'files/backup-guide.pdf', tags:['backup','restauração','dados']},
-      {id:5, type:'program', title:'Instalador: Cliente SSH (Windows)', file:'files/ssh-client.exe', tags:['ssh','cliente','windows']}
-    ];
+    function showSection(id) {
+      document.querySelectorAll('.section').forEach(s => s.style.display = 'none');
+      document.getElementById(id).style.display = 'block';
+    }
 
-    const resultsList = document.getElementById('resultsList');
-    const downloadsList = document.getElementById('downloadsList');
-    const searchInput = document.getElementById('searchInput');
-    const clearBtn = document.getElementById('clearBtn');
+    showSection('home');
 
-    function renderResults(list){
-      resultsList.innerHTML = '';
-      if(list.length===0){
-        resultsList.innerHTML = '<div class="meta">Nenhum resultado encontrado.</div>';
+    function iaSearch() {
+      let q = document.getElementById('query').value.trim();
+      let display = document.getElementById('result');
+      if (!q) {
+        display.innerHTML = '<p>Digite algo para buscar.</p>';
         return;
       }
-      list.forEach(it=>{
-        const el = document.createElement('div'); el.className='item';
-        const left = document.createElement('div');
-        left.innerHTML = `<strong>${it.title}</strong><div class="meta">${it.type} — ${it.tags.join(', ')}</div>`;
-        const right = document.createElement('div');
-        const a = document.createElement('a'); a.href = it.file; a.textContent='Abrir / Baixar'; a.className='short'; a.setAttribute('download','');
-        right.appendChild(a);
-        el.appendChild(left); el.appendChild(right);
-        resultsList.appendChild(el);
-      });
+
+      // IA SIMULADA (você pode conectar API futuramente)
+      display.innerHTML = `<p><strong>Você buscou:</strong> ${q}</p><p>Resultado simulado da IA. Aqui você pode conectar sua API real.</p>`;
     }
-
-    function renderDownloads(){
-      downloadsList.innerHTML='';
-      DATA.forEach(it=>{
-        const el = document.createElement('div'); el.className='item';
-        el.innerHTML = `<div><strong>${it.title}</strong><div class="meta">${it.type}</div></div><div><a class="short" href="${it.file}" download>Baixar</a></div>`;
-        downloadsList.appendChild(el);
-      });
-    }
-
-    function fuzzySearch(q){
-      if(!q) return DATA.slice(0,10);
-      q = q.toLowerCase();
-      return DATA.filter(it => (it.title+ ' ' + it.tags.join(' ')).toLowerCase().includes(q)).slice(0,20);
-    }
-
-    // Eventos
-    searchInput.addEventListener('input', ()=>{
-      const q = searchInput.value.trim();
-      const results = fuzzySearch(q);
-      renderResults(results);
-    });
-
-    clearBtn.addEventListener('click', ()=>{ searchInput.value=''; renderResults(DATA); });
-
-    // Inicializa
-    renderResults(DATA);
-    renderDownloads();
-
-    // === IA: função stub - conectar ao seu backend que chama o modelo de IA/semantic search ===
-    async function askAI(prompt){
-      // Exemplo: você deve implementar um endpoint /api/ai-search que receba {prompt}
-      // e retorne um objeto { answer: 'texto', choices: [{title, file, snippet}, ...] }
-      // Aqui fazemos apenas uma simulação local:
-      const matches = fuzzySearch(prompt).slice(0,3);
-      const answer = matches.length ? `Encontrei ${matches.length} recurso(s) que podem ajudar.` : 'Nenhum recurso direto encontrado. Tente palavras diferentes.';
-      return {answer, choices: matches};
-    }
-
-    document.getElementById('aiAsk').addEventListener('click', async ()=>{
-      const prompt = document.getElementById('aiPrompt').value.trim();
-      const aiResults = document.getElementById('aiResults');
-      aiResults.style.display = 'block';
-      aiResults.innerHTML = '<em>Pesquisando...</em>';
-      try{
-        // se tiver backend, faça fetch('/api/ai-search', {method:'POST', body:JSON.stringify({prompt})})
-        const res = await askAI(prompt);
-        aiResults.innerHTML = `<strong>Resposta rápida:</strong><p class="meta">${res.answer}</p>`;
-        if(res.choices && res.choices.length){
-          const list = document.createElement('div'); list.style.marginTop='8px';
-          res.choices.forEach(c=>{
-            const it = document.createElement('div'); it.className='item';
-            it.innerHTML = `<div><strong>${c.title}</strong><div class='meta'>${c.type || ''}</div></div><div><a class='short' href='${c.file}' download>Abrir</a></div>`;
-            list.appendChild(it);
-          });
-          aiResults.appendChild(list);
-        }
-      }catch(e){
-        aiResults.innerHTML = '<div class="meta">Erro ao buscar com IA.</div>';
-      }
-    });
-
-    document.getElementById('aiClear').addEventListener('click', ()=>{
-      document.getElementById('aiPrompt').value=''; document.getElementById('aiResults').style.display='none';
-    });
-
   </script>
 </body>
 </html>
