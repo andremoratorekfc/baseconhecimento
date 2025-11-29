@@ -5,174 +5,180 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Portal de Suporte</title>
   <style>
-    body { margin:0; font-family: Inter, Arial, sans-serif; background: #0d1115; color:#e6eef6; display:flex; }
-    .sidebar { width:260px; background:#0b1220; height:100vh; position:fixed; left:0; top:0; padding:20px; box-sizing:border-box; border-right:1px solid rgba(255,255,255,0.03); }
-    .sidebar h2 { color:#4fd1c5; margin:0 0 14px 0; font-size:18px }
-    .nav-link { display:block; padding:10px 12px; color:#c6d3df; text-decoration:none; border-radius:8px; margin-bottom:8px; cursor:pointer }
-    .nav-link:hover { background: rgba(79,209,197,0.06); color:#fff }
-    .content { margin-left:260px; padding:28px; width:calc(100% - 260px); box-sizing:border-box; }
-    .top { display:flex; justify-content:space-between; align-items:center; gap:12px }
-    .title { font-size:22px; margin:0 0 6px 0 }
-    .subtitle { color:#90a4b8; margin:0 }
+    :root {
+      --bg: #0d0f12;
+      --card: #15181d;
+      --primary: #4c8bff;
+      --text: #e9ecf1;
+      --text-secondary: #9aa5b8;
+      --border: #1f242b;
+      --radius: 14px;
+      --shadow: 0 4px 20px rgba(0,0,0,0.4);
+    }
 
-    .grid { display:grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap:18px; margin-top:18px }
-    .card { background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01)); padding:18px; border-radius:12px; border:1px solid rgba(255,255,255,0.03); }
-    .card h3 { margin:0 0 8px 0; color:#7bd5c9 }
-    .card p { margin:0 0 12px 0; color:#9fb0c2 }
-    .btn { display:inline-block; padding:10px 14px; background:#4fd1c5; color:#042023; border-radius:10px; text-decoration:none; font-weight:700; cursor:pointer; border:none }
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+    }
 
-    /* Single centered button page */
-    .single-page { display:flex; align-items:center; justify-content:center; height:70vh; }
-    .single-page .action { text-align:center }
-    .single-page .action .big-btn { padding:18px 28px; font-size:18px; border-radius:12px; background:#4fd1c5; color:#042023; border:none; cursor:pointer }
+    header {
+      padding: 25px;
+      text-align: center;
+      font-size: 26px;
+      font-weight: bold;
+      background: #111418;
+      box-shadow: var(--shadow);
+    }
 
-    @media (max-width:900px){ .sidebar{position:relative;width:100%;height:auto} .content{margin-left:0;width:100%} }
+    #searchBox {
+      margin: 25px auto;
+      max-width: 600px;
+      display: flex;
+      gap: 10px;
+    }
+
+    #searchInput {
+      flex: 1;
+      padding: 14px;
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      background: var(--card);
+      color: var(--text);
+      font-size: 16px;
+    }
+
+    #searchBtn {
+      padding: 14px 20px;
+      border-radius: var(--radius);
+      border: none;
+      background: var(--primary);
+      color: #fff;
+      cursor: pointer;
+      font-size: 16px;
+      transition: 0.2s;
+    }
+
+    #searchBtn:hover {
+      opacity: 0.85;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 20px;
+      padding: 25px;
+      max-width: 1200px;
+      margin: auto;
+    }
+
+    .card {
+      background: var(--card);
+      padding: 20px;
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow);
+      transition: 0.2s;
+    }
+
+    .card:hover {
+      transform: translateY(-4px);
+      border-color: var(--primary);
+    }
+
+    .card h3 {
+      margin-top: 0;
+      margin-bottom: 10px;
+      font-size: 19px;
+      color: var(--primary);
+    }
+
+    .card p {
+      margin: 0 0 10px;
+      font-size: 14px;
+      color: var(--text-secondary);
+    }
+
+    .card a {
+      display: inline-block;
+      padding: 10px 14px;
+      background: var(--primary);
+      color: white;
+      border-radius: var(--radius);
+      text-decoration: none;
+      transition: 0.2s;
+    }
+
+    .card a:hover {
+      opacity: 0.8;
+    }
   </style>
 </head>
 <body>
-  <div class="sidebar">
-    <h2>Portal de Suporte</h2>
-    <div class="nav-link" data-target="home">Início</div>
-    <div class="nav-link" data-target="remotos">Acesso Remoto</div>
-    <div class="nav-link" data-target="drivers">Drivers</div>
-    <div class="nav-link" data-target="manuais">Manuais</div>
-    <div class="nav-link" data-target="sistemas">Sistemas</div>
+  <header>Portal de Suporte • Programas e Manuais</header>
+
+  <div id="searchBox">
+    <input id="searchInput" type="text" placeholder="Buscar programas, manuais ou processos..." />
+    <button id="searchBtn">Buscar</button>
   </div>
 
-  <div class="content" id="content">
-    <!-- Conteúdo dinâmico carregado via JS -->
-  </div>
+  <div class="grid" id="itemsGrid"></div>
 
   <script>
-    // Dados dos itens (cada item pode ter link externo ou local)
-    const DATA = {
-      remotos: [
-        {nome:'AnyDesk', desc:'Acesso remoto para suporte rápido.', link:'https://base-imc.vercel.app/aplicativos/anydesk.exe'},
-        {nome:'TeamViewer', desc:'Controle remoto e suporte.', link:'#'},
-        {nome:'VNC Viewer', desc:'Software de acesso remoto da RealVNC.', link:'https://www.realvnc.com/en/connect/download/viewer/?lai_vid=l2zKNkO3qHy8l&lai_sr=5-9&lai_sl=l'}
-      ],
-      drivers: [
-        {nome:'Driver Impressora X', desc:'Driver oficial da impressora X.', link:'#'},
-        {nome:'Driver Rede Y', desc:'Driver adaptador de rede.', link:'#'}
-      ],
-      manuais: [
-        {nome:'Manual: Instalação VPN', desc:'Guia passo-a-passo para instalar VPN.', link:'files/manual-vpn.pdf'},
-        {nome:'Manual: Acesso RDP', desc:'Procedimento para conexão RDP.', link:'files/proc-rdp.pdf'}
-      ],
-      sistemas: [
-        {nome:'Portal Interno', desc:'Acesso ao portal corporativo.', link:'https://intranet.empresa.local'},
-        {nome:'Chamados TI', desc:'Sistema de abertura de tickets.', link:'#'}
-      ]
-    };
-
-    // Função que monta a tela inicial com cards
-    function renderHome(){
-      const html = `
-        <div class="top">
-          <div>
-            <h1 class="title">Bem-vindo ao Portal de Suporte</h1>
-            <p class="subtitle">Selecione um item no menu ou clique em um dos cards abaixo.</p>
-          </div>
-        </div>
-
-        <div class="grid">
-          <div class="card">
-            <h3>Acesso Remoto</h3>
-            <p>Ferramentas de suporte remoto como AnyDesk e TeamViewer.</p>
-            <button class="btn" onclick="openList('remotos')">Abrir Acesso Remoto</button>
-          </div>
-
-          <div class="card">
-            <h3>Drivers</h3>
-            <p>Drivers principais para impressoras e adaptadores.</p>
-            <button class="btn" onclick="openList('drivers')">Abrir Drivers</button>
-          </div>
-
-          <div class="card">
-            <h3>Manuais</h3>
-            <p>Guias e procedimentos de operação.</p>
-            <button class="btn" onclick="openList('manuais')">Abrir Manuais</button>
-          </div>
-
-          <div class="card">
-            <h3>Sistemas</h3>
-            <p>Atalhos para sistemas internos e ferramentas de gestão.</p>
-            <button class="btn" onclick="openList('sistemas')">Abrir Sistemas</button>
-          </div>
-        </div>
-      `;
-      document.getElementById('content').innerHTML = html;
-    }
-
-    // Função que mostra a lista de itens de uma categoria com botões
-    function openList(category){
-      const list = DATA[category] || [];
-      let html = `<div class='top'><div><h1 class='title'>${capitalize(category)}</h1><p class='subtitle'>Clique em um item para abrir a página dedicada.</p></div></div><div class='grid'>`;
-      list.forEach(it => {
-        html += `<div class='card'>
-<h3>${it.nome}</h3>
-<p>${it.desc}</p>
-<button class='btn' onclick="openSingle('${escapeForJs(it.nome)}','${escapeForJs(it.link)}')">Abrir</button>
-</div>`;
-      });
-      html += '</div>';
-      document.getElementById('content').innerHTML = html;
-    }
-
-    // Quando clicar em um item, abre uma 'página' com um único botão centralizado
-    function openSingle(title, link){
-      const html = `
-        <div class='top'><div><h1 class='title'>${title}</h1><p class='subtitle'>Clique no botão abaixo para iniciar/baixar.</p></div></div>
-        <div class='single-page'>
-          <div class='action'>
-            <button class='big-btn' onclick="handleAction('${escapeForJs(link)}')" title='${title}'>${title}</button>
-            <p style='color:#90a4b8;margin-top:12px;font-size:13px'>Se for um arquivo, o download será iniciado; se for um link, será aberto em nova aba.</p>
-          </div>
-        </div>
-      `;
-      document.getElementById('content').innerHTML = html;
-    }
-
-    // Trata a ação do botão central: se link começa com http ou https abre nova aba; se é '#', mostra mensagem; se termina em extensão inicia download via criação de <a>
-    function handleAction(link){
-      if(!link || link === '#'){
-        alert('Link não disponível.');
-        return;
+    // Você pode usar LINKS EXTERNOS diretamente aqui.
+// Exemplo:
+// link: "https://base-imc.vercel.app/aplicativos/anydesk.exe"
+// Basta substituir o valor de "link".
+const items = [
+      {
+        nome: "AnyDesk",
+        desc: "Acesso remoto para suporte rápido.",
+        link: "https://base-imc.vercel.app/aplicativos/anydesk.exe"
+      },
+      {
+        nome: "TeamViewer",
+        desc: "Ferramenta de controle remoto e suporte.",
+        link: "#"
+      },
+      {
+        nome: "Manual de Integração",
+        desc: "Passo a passo de acesso inicial.",
+        link: "#"
+      },
+      {
+        nome: "Instalador Impressora",
+        desc: "Driver padrão atualizado.",
+        link: "#"
+      },
+      {
+        nome: "Chamados TI",
+        desc: "Abertura de tickets e acompanhamento.",
+        link: "#"
       }
-      try{
-        const l = link.toLowerCase();
-        if(l.startsWith('http://') || l.startsWith('https://')){
-          window.open(link, '_blank');
-          return;
-        }
-        // Se é caminho de arquivo (ex: files/arquivo.pdf ou https...), vamos forçar download
-        const a = document.createElement('a');
-        a.href = link;
-        a.download = '';
-        document.body.appendChild(a);
-        a.click();
-        a.remove();
-      }catch(e){
-        console.error(e);
-        alert('Erro ao executar a ação.');
-      }
+    ];
+
+    function render(lista) {
+      const grid = document.getElementById("itemsGrid");
+      grid.innerHTML = "";
+
+      lista.forEach(i => {
+        grid.innerHTML += `
+          <div class="card">
+            <h3>${i.nome}</h3>
+            <p>${i.desc}</p>
+            <a href="${i.link}" target="_blank">Acessar</a>
+          </div>
+        `;
+      });
     }
 
-    // Helpers
-    function capitalize(s){ return s.charAt(0).toUpperCase() + s.slice(1); }
-    function escapeForJs(s){ return String(s).replace(/'/g, "\'").replace(/
-/g,''); }
+    render(items);
 
-    // Sidebar link clicks
-    document.querySelectorAll('.nav-link').forEach(el=>{
-      el.addEventListener('click', ()=>{
-        const target = el.getAttribute('data-target');
-        if(target === 'home') renderHome(); else openList(target);
-      });
+    document.getElementById("searchBtn").addEventListener("click", () => {
+      const termo = document.getElementById("searchInput").value.toLowerCase();
+      render(items.filter(i => i.nome.toLowerCase().includes(termo)));
     });
-
-    // Inicializa com home
-    renderHome();
   </script>
 </body>
 </html>
