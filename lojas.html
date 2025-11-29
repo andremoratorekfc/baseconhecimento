@@ -1,198 +1,95 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Lojas KFC • Acesso Remoto</title>
-
-  <style>
-    :root {
-      --bg: #0d0f12;
-      --card: #15181d;
-      --primary: #4c8bff;
-      --text: #e9ecf1;
-      --text-secondary: #9aa5b8;
-      --border: #1f242b;
-      --radius: 14px;
-      --shadow: 0 4px 20px rgba(0,0,0,0.4);
-    }
-
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: var(--bg);
-      color: var(--text);
-    }
-
-    header {
-      padding: 25px;
-      text-align: center;
-      font-size: 26px;
-      font-weight: bold;
-      background: #111418;
-      box-shadow: var(--shadow);
-    }
-
-    .container {
-      max-width: 1200px;
-      margin: 40px auto;
-      padding: 20px;
-    }
-
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-      gap: 20px;
-    }
-
-    .card {
-      background: var(--card);
-      padding: 20px;
-      border-radius: var(--radius);
-      border: 1px solid var(--border);
-      box-shadow: var(--shadow);
-      transition: 0.2s;
-    }
-
-    .card:hover {
-      transform: translateY(-4px);
-      border-color: var(--primary);
-    }
-
-    .card h3 {
-      margin: 0 0 10px;
-      font-size: 19px;
-      color: var(--primary);
-    }
-
-    .card p {
-      margin: 0 0 10px;
-      font-size: 14px;
-      color: var(--text-secondary);
-    }
-
-    .card a {
-      display: inline-block;
-      padding: 10px 14px;
-      background: var(--primary);
-      color: white;
-      border-radius: var(--radius);
-      text-decoration: none;
-      transition: .2s;
-    }
-
-    .card a:hover {
-      opacity: .8;
-    }
-
-    .back {
-      display: inline-block;
-      margin-top: 25px;
-      font-size: 14px;
-      color: var(--primary);
-      text-decoration: none;
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lojas KFC Brasil</title>
+<style>
+body {
+    font-family: Arial, sans-serif;
+    background: #f9f9f9;
+    margin: 0;
+    padding: 0;
+}
+h1 {
+    text-align: center;
+    margin: 20px 0;
+}
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 15px;
+    padding: 20px;
+}
+.card {
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 0 8px rgba(0,0,0,0.1);
+    padding: 15px;
+    transition: transform 0.2s;
+}
+.card:hover {
+    transform: translateY(-5px);
+}
+.card h3 {
+    margin: 0 0 10px 0;
+    color: #d62728; /* cor KFC */
+}
+.card p {
+    margin: 5px 0;
+    font-size: 14px;
+}
+.card a {
+    color: #fff;
+    background: #d62728;
+    padding: 5px 10px;
+    text-decoration: none;
+    border-radius: 5px;
+    display: inline-block;
+    margin-top: 10px;
+}
+.card a:hover {
+    background: #b71c1c;
+}
+</style>
 </head>
-
 <body>
 
-<header>Lojas KFC • Acesso Remoto VNC</header>
+<h1>Lojas KFC Brasil</h1>
 
-<div class="container">
+<div class="grid" id="lojasGrid"></div>
 
-  <div class="grid">
+<script>
+const lojas = [
+    {codigo:"K001", nome:"Shopping Analia Franco", email:"kfcbr001@kfc.com.br", endereco:"Av. Regente Feijó, 1.739 – Tatuapé, São Paulo (SP)"},
+    {codigo:"K002", nome:"Shopping Diamond Mall", email:"kfcbr002@kfc.com.br", endereco:"Av. Olegário Maciel, 1.600 – Lourdes, Belo Horizonte (MG)"},
+    {codigo:"K003", nome:"Shopping Boulevard BH", email:"kfcbr003@kfc.com.br", endereco:"Av. dos Andradas, 3.000 – Santa Efigênia, Belo Horizonte (MG)"},
+    {codigo:"K005", nome:"Shopping Market Place", email:"kfcbr005@kfc.com.br", endereco:"Av. Dr. Chucri Zaidan, 902 – Vila Cordeiro, São Paulo (SP)"},
+    {codigo:"K006", nome:"Aeroporto Brasilia", email:"kfcbr006@kfc.com.br", endereco:"Aeroporto Internacional de Brasília – Lago Sul, Brasília (DF)"},
+    {codigo:"K007", nome:"Tiete Plaza Shopping", email:"kfcbr007@kfc.com.br", endereco:"Av. Raimundo Pereira de Magalhães, 1.465 – Pirituba, São Paulo (SP)"},
+    {codigo:"K044", nome:"Praia de Belas Shopping", email:"kfcbr044@kfc.com.br", endereco:"Av. Praia de Belas, 1.181 – Praia de Belas, Porto Alegre (RS)"},
+    {codigo:"K045", nome:"Shopping Litoral Plaza", email:"kfcbr045@kfc.com.br", endereco:"Av. Ayrton Senna da Silva, 1.511 – Praia Grande (SP)"},
+    {codigo:"K047", nome:"Osasco Plaza Shopping", email:"kfcbr047@kfc.com.br", endereco:"R. Ten. Avelar Pires de Azevedo, 81 – Centro, Osasco (SP)"},
+    {codigo:"K048", nome:"Shopping Metro Santa Cruz", email:"kfcbr048@kfc.com.br", endereco:"Rua Domingos de Moraes, 2.564 – Vila Mariana, São Paulo (SP)"},
+    // Pode adicionar todas as outras lojas seguindo o mesmo formato
+];
 
-    <!-- MODELO — repito para todas as lojas -->
-    <div class="card">
-      <h3>KFC 001 • Shopping Paralela</h3>
-      <p>Acesso remoto via VNC</p>
-      <a href="vnc://10.10.1.10">Acessar Loja</a>
-    </div>
+function renderLojas() {
+    const grid = document.getElementById("lojasGrid");
+    grid.innerHTML = "";
+    lojas.forEach(loja => {
+        grid.innerHTML += `
+        <div class="card">
+            <h3>${loja.codigo} - ${loja.nome}</h3>
+            <p><strong>E-mail:</strong> <a href="mailto:${loja.email}">${loja.email}</a></p>
+            <p><strong>Endereço:</strong> ${loja.endereco}</p>
+        </div>
+        `;
+    });
+}
 
-    <div class="card">
-      <h3>KFC 002 • Vila Romana</h3>
-      <p>Acesso remoto via VNC</p>
-      <a href="vnc://10.10.2.10">Acessar Loja</a>
-    </div>
-
-    <div class="card">
-      <h3>KFC 003 • Shopping da Ilha</h3>
-      <p>Acesso remoto via VNC</p>
-      <a href="vnc://10.10.3.10">Acessar Loja</a>
-    </div>
-
-    <div class="card">
-      <h3>KFC 004 • Shopping São Luís</h3>
-      <p>Acesso remoto via VNC</p>
-      <a href="vnc://10.10.4.10">Acessar Loja</a>
-    </div>
-
-    <div class="card">
-      <h3>KFC 005 • Shopping Lapa</h3>
-      <p>Acesso remoto via VNC</p>
-      <a href="vnc://10.10.5.10">Acessar Loja</a>
-    </div>
-
-    <div class="card">
-      <h3>KFC 006 • Jardim Norte</h3>
-      <p>Acesso remoto via VNC</p>
-      <a href="vnc://10.10.6.10">Acessar Loja</a>
-    </div>
-
-    <div class="card">
-      <h3>KFC 007 • Park Lagos</h3>
-      <p>Acesso remoto via VNC</p>
-      <a href="vnc://10.10.7.10">Acessar Loja</a>
-    </div>
-
-    <div class="card">
-      <h3>KFC 008 • Gravataí</h3>
-      <p>Acesso remoto via VNC</p>
-      <a href="vnc://10.10.8.10">Acessar Loja</a>
-    </div>
-
-    <div class="card">
-      <h3>KFC 009 • Mangabeira</h3>
-      <p>Acesso remoto via VNC</p>
-      <a href="vnc://10.10.9.10">Acessar Loja</a>
-    </div>
-
-    <div class="card">
-      <h3>KFC 010 • Partage Campos</h3>
-      <p>Acesso remoto via VNC</p>
-      <a href="vnc://10.10.10.10">Acessar Loja</a>
-    </div>
-
-    <div class="card">
-      <h3>KFC 011 • Rio Anil</h3>
-      <p>Acesso remoto via VNC</p>
-      <a href="vnc://10.10.11.10">Acessar Loja</a>
-    </div>
-
-    <div class="card">
-      <h3>KFC 012 • Estação Cuiabá</h3>
-      <p>Acesso remoto via VNC</p>
-      <a href="vnc://10.10.12.10">Acessar Loja</a>
-    </div>
-
-    <div class="card">
-      <h3>KFC 013 • Mestre Álvaro</h3>
-      <p>Acesso remoto via VNC</p>
-      <a href="vnc://10.10.13.10">Acessar Loja</a>
-    </div>
-
-    <div class="card">
-      <h3>KFC 014 • Catarina Fashion Outlet</h3>
-      <p>Acesso remoto via VNC</p>
-      <a href="vnc://10.10.14.10">Acessar Loja</a>
-    </div>
-
-  </div>
-
-  <a href="index.html" class="back">← Voltar ao Portal</a>
-
-</div>
+renderLojas();
+</script>
 
 </body>
 </html>
