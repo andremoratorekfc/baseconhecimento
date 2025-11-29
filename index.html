@@ -144,13 +144,13 @@
   <header>Portal de Suporte • Programas e Manuais</header>
 
   <nav>
-    <button onclick="carregar('inicio')">Início</button>
-    <button onclick="carregar('aplicativos')">Aplicativos</button>
-    <button onclick="carregar('contatos')">Contatos</button>
-    <button onclick="carregar('links')">Links de Acesso</button>
-    <button onclick="carregar('lojas')">Lojas</button>
-    <button onclick="carregar('menuboard')">MenuBoard</button>
-    <button onclick="carregar('acesso')">Acesso Remoto</button>
+    <button onclick="window.location.href='inicio.html'">Início</button>
+    <button onclick="window.location.href='aplicativos.html'">Aplicativos</button>
+    <button onclick="window.location.href='contatos.html'">Contatos</button>
+    <button onclick="window.location.href='links.html'">Links de Acesso</button>
+    <button onclick="window.location.href='lojas.html'">Lojas</button>
+    <button onclick="window.location.href='menuboard.html'">MenuBoard</button>
+    <button onclick="window.location.href='acesso.html'">Acesso Remoto</button>
   </nav>
 
   <div id="searchBox">
@@ -161,51 +161,21 @@
   <div class="grid" id="itemsGrid"></div>
 
   <script>
-    /* TELA INICIAL - atualizada */
+    // Cards do portal principal
     const inicio = [
       { nome: "VNC / Acesso Lojas", desc: "Ferramenta de acesso remoto usada nas lojas.", link: "vnc.html" },
-      { nome: "Aplicativos", desc: "Lista completa de programas e instaladores.", link: "#" },
-      { nome: "Contatos", desc: "Telefones e e-mails úteis por setor.", link: "#" },
-      { nome: "Links de Acesso", desc: "Sistemas internos, VPN, relatórios e mais.", link: "#" },
-      { nome: "Lojas", desc: "Lista completa das unidades.", link: "#" },
-      { nome: "MenuBoard", desc: "Ferramentas e processos do MenuBoard.", link: "#" },
+      { nome: "Aplicativos", desc: "Lista completa de programas e instaladores.", link: "aplicativos.html" },
+      { nome: "Contatos", desc: "Telefones e e-mails úteis por setor.", link: "contatos.html" },
+      { nome: "Links de Acesso", desc: "Sistemas internos, VPN, relatórios e mais.", link: "links.html" },
+      { nome: "Lojas", desc: "Lista completa das unidades.", link: "lojas.html" },
+      { nome: "MenuBoard", desc: "Ferramentas e processos do MenuBoard.", link: "menuboard.html" },
       { nome: "TeamViewer", desc: "Ferramenta de suporte remoto.", link: "https://www.teamviewer.com/pt-br/download/" },
       { nome: "Manual de Integração", desc: "Passo a passo inicial.", link: "#" },
       { nome: "Instalador Impressora", desc: "Driver padrão atualizado.", link: "#" },
       { nome: "Chamados TI", desc: "Abertura de tickets.", link: "#" }
     ];
 
-    const aplicativos = [
-      { nome: "AnyDesk", desc: "Acesso remoto rápido.", link: "https://base-imc.vercel.app/aplicativos/anydesk.exe" },
-      { nome: "Chrome", desc: "Navegador Google Chrome.", link: "https://www.google.com/chrome" },
-      { nome: "WinRAR", desc: "Compactador de arquivos.", link: "https://www.win-rar.com/" }
-    ];
-
-    const contatos = [
-      { nome: "TI Suporte", desc: "Equipe de TI.", link: "mailto:ti@kfc.com.br" },
-      { nome: "Facilities", desc: "Suporte das lojas.", link: "mailto:facilities@kfc.com.br" }
-    ];
-
-    const links = [
-      { nome: "Portal Corporativo", desc: "Acesso interno.", link: "#" },
-      { nome: "Chamados TI", desc: "Abrir chamados.", link: "#" }
-    ];
-
-    const lojas = [
-      { nome: "Lista Completa", desc: "Todas as lojas.", link: "https://base-imc.vercel.app/lojas" }
-    ];
-
-    const menuboard = [
-      { nome: "Configurações", desc: "Painéis e atualizações.", link: "#" }
-    ];
-
-    const acesso = [
-      { nome: "VNC Viewer", desc: "Acesso remoto das lojas.", link: "vnc.html" },
-      { nome: "AnyDesk", desc: "Acesso remoto alternativo.", link: "https://base-imc.vercel.app/aplicativos/anydesk.exe" }
-    ];
-
-    const categorias = { inicio, aplicativos, contatos, links, lojas, menuboard, acesso };
-
+    // Renderiza os cards
     function render(lista) {
       const grid = document.getElementById("itemsGrid");
       grid.innerHTML = "";
@@ -220,24 +190,14 @@
       });
     }
 
-    function carregar(cat) {
-      render(categorias[cat]);
-    }
+    render(inicio);
 
+    // Busca nos cards
     document.getElementById("searchBtn").addEventListener("click", () => {
       const termo = document.getElementById("searchInput").value.toLowerCase();
-      let resultado = [];
-
-      Object.values(categorias).forEach(grupo => {
-        resultado = resultado.concat(
-          grupo.filter(item => item.nome.toLowerCase().includes(termo))
-        );
-      });
-
+      const resultado = inicio.filter(item => item.nome.toLowerCase().includes(termo));
       render(resultado);
     });
-
-    carregar("inicio");
   </script>
 
 </body>
