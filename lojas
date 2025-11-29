@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lojas KFC • Acesso Remoto</title>
+
+  <style>
+    :root {
+      --bg: #0d0f12;
+      --card: #15181d;
+      --primary: #4c8bff;
+      --text: #e9ecf1;
+      --text-secondary: #9aa5b8;
+      --border: #1f242b;
+      --radius: 14px;
+      --shadow: 0 4px 20px rgba(0,0,0,0.4);
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+    }
+
+    header {
+      padding: 25px;
+      text-align: center;
+      font-size: 26px;
+      font-weight: bold;
+      background: #111418;
+      box-shadow: var(--shadow);
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 40px auto;
+      padding: 20px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 20px;
+    }
+
+    .card {
+      background: var(--card);
+      padding: 20px;
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow);
+      transition: 0.2s;
+    }
+
+    .card:hover {
+      transform: translateY(-4px);
+      border-color: var(--primary);
+    }
+
+    .card h3 {
+      margin: 0 0 10px;
+      font-size: 19px;
+      color: var(--primary);
+    }
+
+    .card p {
+      margin: 0 0 10px;
+      font-size: 14px;
+      color: var(--text-secondary);
+    }
+
+    .card a {
+      display: inline-block;
+      padding: 10px 14px;
+      background: var(--primary);
+      color: white;
+      border-radius: var(--radius);
+      text-decoration: none;
+      transition: .2s;
+    }
+
+    .card a:hover {
+      opacity: .8;
+    }
+
+    .back {
+      display: inline-block;
+      margin-top: 25px;
+      font-size: 14px;
+      color: var(--primary);
+      text-decoration: none;
+    }
+  </style>
+</head>
+
+<body>
+
+<header>Lojas KFC • Acesso Remoto VNC</header>
+
+<div class="container">
+
+  <div class="grid">
+
+    <!-- MODELO — repito para todas as lojas -->
+    <div class="card">
+      <h3>KFC 001 • Shopping Paralela</h3>
+      <p>Acesso remoto via VNC</p>
+      <a href="vnc://10.10.1.10">Acessar Loja</a>
+    </div>
+
+    <div class="card">
+      <h3>KFC 002 • Vila Romana</h3>
+      <p>Acesso remoto via VNC</p>
+      <a href="vnc://10.10.2.10">Acessar Loja</a>
+    </div>
+
+    <div class="card">
+      <h3>KFC 003 • Shopping da Ilha</h3>
+      <p>Acesso remoto via VNC</p>
+      <a href="vnc://10.10.3.10">Acessar Loja</a>
+    </div>
+
+    <div class="card">
+      <h3>KFC 004 • Shopping São Luís</h3>
+      <p>Acesso remoto via VNC</p>
+      <a href="vnc://10.10.4.10">Acessar Loja</a>
+    </div>
+
+    <div class="card">
+      <h3>KFC 005 • Shopping Lapa</h3>
+      <p>Acesso remoto via VNC</p>
+      <a href="vnc://10.10.5.10">Acessar Loja</a>
+    </div>
+
+    <div class="card">
+      <h3>KFC 006 • Jardim Norte</h3>
+      <p>Acesso remoto via VNC</p>
+      <a href="vnc://10.10.6.10">Acessar Loja</a>
+    </div>
+
+    <div class="card">
+      <h3>KFC 007 • Park Lagos</h3>
+      <p>Acesso remoto via VNC</p>
+      <a href="vnc://10.10.7.10">Acessar Loja</a>
+    </div>
+
+    <div class="card">
+      <h3>KFC 008 • Gravataí</h3>
+      <p>Acesso remoto via VNC</p>
+      <a href="vnc://10.10.8.10">Acessar Loja</a>
+    </div>
+
+    <div class="card">
+      <h3>KFC 009 • Mangabeira</h3>
+      <p>Acesso remoto via VNC</p>
+      <a href="vnc://10.10.9.10">Acessar Loja</a>
+    </div>
+
+    <div class="card">
+      <h3>KFC 010 • Partage Campos</h3>
+      <p>Acesso remoto via VNC</p>
+      <a href="vnc://10.10.10.10">Acessar Loja</a>
+    </div>
+
+    <div class="card">
+      <h3>KFC 011 • Rio Anil</h3>
+      <p>Acesso remoto via VNC</p>
+      <a href="vnc://10.10.11.10">Acessar Loja</a>
+    </div>
+
+    <div class="card">
+      <h3>KFC 012 • Estação Cuiabá</h3>
+      <p>Acesso remoto via VNC</p>
+      <a href="vnc://10.10.12.10">Acessar Loja</a>
+    </div>
+
+    <div class="card">
+      <h3>KFC 013 • Mestre Álvaro</h3>
+      <p>Acesso remoto via VNC</p>
+      <a href="vnc://10.10.13.10">Acessar Loja</a>
+    </div>
+
+    <div class="card">
+      <h3>KFC 014 • Catarina Fashion Outlet</h3>
+      <p>Acesso remoto via VNC</p>
+      <a href="vnc://10.10.14.10">Acessar Loja</a>
+    </div>
+
+  </div>
+
+  <a href="index.html" class="back">← Voltar ao Portal</a>
+
+</div>
+
+</body>
+</html>
