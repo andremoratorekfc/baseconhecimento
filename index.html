@@ -5,116 +5,168 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Portal de Suporte</title>
   <style>
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: #111;
-      color: #fff;
-      display: flex;
-    }
+    body { margin:0; font-family: Inter, Arial, sans-serif; background: #0d1115; color:#e6eef6; display:flex; }
+    .sidebar { width:260px; background:#0b1220; height:100vh; position:fixed; left:0; top:0; padding:20px; box-sizing:border-box; border-right:1px solid rgba(255,255,255,0.03); }
+    .sidebar h2 { color:#4fd1c5; margin:0 0 14px 0; font-size:18px }
+    .nav-link { display:block; padding:10px 12px; color:#c6d3df; text-decoration:none; border-radius:8px; margin-bottom:8px; cursor:pointer }
+    .nav-link:hover { background: rgba(79,209,197,0.06); color:#fff }
+    .content { margin-left:260px; padding:28px; width:calc(100% - 260px); box-sizing:border-box; }
+    .top { display:flex; justify-content:space-between; align-items:center; gap:12px }
+    .title { font-size:22px; margin:0 0 6px 0 }
+    .subtitle { color:#90a4b8; margin:0 }
 
-    /* SIDEBAR */
-    .sidebar {
-      width: 250px;
-      background: #1a1a1a;
-      height: 100vh;
-      position: fixed;
-      left: 0;
-      top: 0;
-      padding: 20px;
-      box-sizing: border-box;
-      border-right: 1px solid #333;
-    }
-    .sidebar h2 {
-      margin-top: 0;
-      margin-bottom: 20px;
-      font-size: 20px;
-      color: #4fa3ff;
-    }
-    .sidebar a {
-      display: block;
-      padding: 12px;
-      color: #ddd;
-      text-decoration: none;
-      border-radius: 6px;
-      margin-bottom: 8px;
-      transition: 0.2s;
-    }
-    .sidebar a:hover {
-      background: #333;
-    }
+    .grid { display:grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap:18px; margin-top:18px }
+    .card { background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01)); padding:18px; border-radius:12px; border:1px solid rgba(255,255,255,0.03); }
+    .card h3 { margin:0 0 8px 0; color:#7bd5c9 }
+    .card p { margin:0 0 12px 0; color:#9fb0c2 }
+    .btn { display:inline-block; padding:10px 14px; background:#4fd1c5; color:#042023; border-radius:10px; text-decoration:none; font-weight:700; cursor:pointer; border:none }
 
-    /* MAIN AREA */
-    .content {
-      margin-left: 250px;
-      padding: 30px;
-      width: calc(100% - 250px);
-    }
-    .card {
-      background: #1b1b1b;
-      padding: 20px;
-      margin-bottom: 20px;
-      border-radius: 10px;
-      border: 1px solid #333;
-    }
-    .card h3 {
-      margin-top: 0;
-      color: #4fa3ff;
-    }
-    .btn {
-      display: inline-block;
-      margin-top: 10px;
-      padding: 10px 16px;
-      background: #4fa3ff;
-      color: #000;
-      border-radius: 6px;
-      text-decoration: none;
-      font-weight: bold;
-    }
+    /* Single centered button page */
+    .single-page { display:flex; align-items:center; justify-content:center; height:70vh; }
+    .single-page .action { text-align:center }
+    .single-page .action .big-btn { padding:18px 28px; font-size:18px; border-radius:12px; background:#4fd1c5; color:#042023; border:none; cursor:pointer }
+
+    @media (max-width:900px){ .sidebar{position:relative;width:100%;height:auto} .content{margin-left:0;width:100%} }
   </style>
 </head>
 <body>
-
-  <!-- SIDEBAR -->
   <div class="sidebar">
-    <h2>Suporte</h2>
-    <a href="#home">Início</a>
-    <a href="#remotos">Acesso Remoto</a>
-    <a href="#drivers">Drivers</a>
-    <a href="#manuais">Manuais</a>
-    <a href="#sistemas">Sistemas</a>
+    <h2>Portal de Suporte</h2>
+    <div class="nav-link" data-target="home">Início</div>
+    <div class="nav-link" data-target="remotos">Acesso Remoto</div>
+    <div class="nav-link" data-target="drivers">Drivers</div>
+    <div class="nav-link" data-target="manuais">Manuais</div>
+    <div class="nav-link" data-target="sistemas">Sistemas</div>
   </div>
 
-  <!-- MAIN AREA -->
-  <div class="content" id="home">
-    <h1>Portal de Suporte</h1>
-    <p>Selecione no menu ao lado o que deseja acessar.</p>
-
-    <div class="card" id="remotos">
-      <h3>Programas de Acesso Remoto</h3>
-      <p>Softwares usados para suporte e conexões remotas.</p>
-      <a class="btn" href="https://base-imc.vercel.app/aplicativos/anydesk.exe" download>Baixar AnyDesk</a>
-    </div>
-
-    <div class="card" id="drivers">
-      <h3>Drivers</h3>
-      <p>Drivers de equipamentos e impressoras.</p>
-      <a class="btn" href="#">Em breve…</a>
-    </div>
-
-    <div class="card" id="manuais">
-      <h3>Manuais</h3>
-      <p>Documentações e guias de operação.</p>
-      <a class="btn" href="#">Em breve…</a>
-    </div>
-
-    <div class="card" id="sistemas">
-      <h3>Sistemas Internos</h3>
-      <p>Atalhos para sistemas corporativos.</p>
-      <a class="btn" href="#">Em breve…</a>
-    </div>
-
+  <div class="content" id="content">
+    <!-- Conteúdo dinâmico carregado via JS -->
   </div>
 
+  <script>
+    // Dados dos itens (cada item pode ter link externo ou local)
+    const DATA = {
+      remotos: [
+        {nome:'AnyDesk', desc:'Acesso remoto para suporte rápido.', link:'https://base-imc.vercel.app/aplicativos/anydesk.exe'},
+        {nome:'TeamViewer', desc:'Controle remoto e suporte.', link:'#'}
+      ],
+      drivers: [
+        {nome:'Driver Impressora X', desc:'Driver oficial da impressora X.', link:'#'},
+        {nome:'Driver Rede Y', desc:'Driver adaptador de rede.', link:'#'}
+      ],
+      manuais: [
+        {nome:'Manual: Instalação VPN', desc:'Guia passo-a-passo para instalar VPN.', link:'files/manual-vpn.pdf'},
+        {nome:'Manual: Acesso RDP', desc:'Procedimento para conexão RDP.', link:'files/proc-rdp.pdf'}
+      ],
+      sistemas: [
+        {nome:'Portal Interno', desc:'Acesso ao portal corporativo.', link:'https://intranet.empresa.local'},
+        {nome:'Chamados TI', desc:'Sistema de abertura de tickets.', link:'#'}
+      ]
+    };
+
+    // Função que monta a tela inicial com cards
+    function renderHome(){
+      const html = `
+        <div class="top">
+          <div>
+            <h1 class="title">Bem-vindo ao Portal de Suporte</h1>
+            <p class="subtitle">Selecione um item no menu ou clique em um dos cards abaixo.</p>
+          </div>
+        </div>
+
+        <div class="grid">
+          <div class="card">
+            <h3>Acesso Remoto</h3>
+            <p>Ferramentas de suporte remoto como AnyDesk e TeamViewer.</p>
+            <button class="btn" onclick="openList('remotos')">Abrir Acesso Remoto</button>
+          </div>
+
+          <div class="card">
+            <h3>Drivers</h3>
+            <p>Drivers principais para impressoras e adaptadores.</p>
+            <button class="btn" onclick="openList('drivers')">Abrir Drivers</button>
+          </div>
+
+          <div class="card">
+            <h3>Manuais</h3>
+            <p>Guias e procedimentos de operação.</p>
+            <button class="btn" onclick="openList('manuais')">Abrir Manuais</button>
+          </div>
+
+          <div class="card">
+            <h3>Sistemas</h3>
+            <p>Atalhos para sistemas internos e ferramentas de gestão.</p>
+            <button class="btn" onclick="openList('sistemas')">Abrir Sistemas</button>
+          </div>
+        </div>
+      `;
+      document.getElementById('content').innerHTML = html;
+    }
+
+    // Função que mostra a lista de itens de uma categoria com botões
+    function openList(category){
+      const list = DATA[category] || [];
+      let html = `<div class='top'><div><h1 class='title'>${capitalize(category)}</h1><p class='subtitle'>Clique em um item para abrir a página dedicada.</p></div></div><div class='grid'>`;
+      list.forEach(it => {
+        html += `<div class='card'>\n<h3>${it.nome}</h3>\n<p>${it.desc}</p>\n<button class='btn' onclick="openSingle('${escapeForJs(it.nome)}','${escapeForJs(it.link)}')">Abrir</button>\n</div>`;
+      });
+      html += '</div>';
+      document.getElementById('content').innerHTML = html;
+    }
+
+    // Quando clicar em um item, abre uma 'página' com um único botão centralizado
+    function openSingle(title, link){
+      const html = `
+        <div class='top'><div><h1 class='title'>${title}</h1><p class='subtitle'>Clique no botão abaixo para iniciar/baixar.</p></div></div>
+        <div class='single-page'>
+          <div class='action'>
+            <button class='big-btn' onclick="handleAction('${escapeForJs(link)}')" title='${title}'>${title}</button>
+            <p style='color:#90a4b8;margin-top:12px;font-size:13px'>Se for um arquivo, o download será iniciado; se for um link, será aberto em nova aba.</p>
+          </div>
+        </div>
+      `;
+      document.getElementById('content').innerHTML = html;
+    }
+
+    // Trata a ação do botão central: se link começa com http ou https abre nova aba; se é '#', mostra mensagem; se termina em extensão inicia download via criação de <a>
+    function handleAction(link){
+      if(!link || link === '#'){
+        alert('Link não disponível.');
+        return;
+      }
+      try{
+        const l = link.toLowerCase();
+        if(l.startsWith('http://') || l.startsWith('https://')){
+          window.open(link, '_blank');
+          return;
+        }
+        // Se é caminho de arquivo (ex: files/arquivo.pdf ou https...), vamos forçar download
+        const a = document.createElement('a');
+        a.href = link;
+        a.download = '';
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+      }catch(e){
+        console.error(e);
+        alert('Erro ao executar a ação.');
+      }
+    }
+
+    // Helpers
+    function capitalize(s){ return s.charAt(0).toUpperCase() + s.slice(1); }
+    function escapeForJs(s){ return String(s).replace(/'/g, "\\'").replace(/\n/g,''); }
+
+    // Sidebar link clicks
+    document.querySelectorAll('.nav-link').forEach(el=>{
+      el.addEventListener('click', ()=>{
+        const target = el.getAttribute('data-target');
+        if(target === 'home') renderHome(); else openList(target);
+      });
+    });
+
+    // Inicializa com home
+    renderHome();
+  </script>
 </body>
 </html>
