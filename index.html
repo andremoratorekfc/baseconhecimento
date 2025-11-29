@@ -5,181 +5,116 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Portal de Suporte</title>
   <style>
-    :root {
-      --bg: #0d0f12;
-      --card: #15181d;
-      --primary: #4c8bff;
-      --text: #e9ecf1;
-      --text-secondary: #9aa5b8;
-      --border: #1f242b;
-      --radius: 14px;
-      --shadow: 0 4px 20px rgba(0,0,0,0.4);
-    }
-
     body {
       margin: 0;
       font-family: Arial, sans-serif;
-      background: var(--bg);
-      color: var(--text);
-    }
-
-    header {
-      padding: 25px;
-      text-align: center;
-      font-size: 26px;
-      font-weight: bold;
-      background: #111418;
-      box-shadow: var(--shadow);
-    }
-
-    #searchBox {
-      margin: 25px auto;
-      max-width: 600px;
-      display: flex;
-      gap: 10px;
-    }
-
-    #searchInput {
-      flex: 1;
-      padding: 14px;
-      border-radius: var(--radius);
-      border: 1px solid var(--border);
-      background: var(--card);
-      color: var(--text);
-      font-size: 16px;
-    }
-
-    #searchBtn {
-      padding: 14px 20px;
-      border-radius: var(--radius);
-      border: none;
-      background: var(--primary);
+      background: #111;
       color: #fff;
-      cursor: pointer;
-      font-size: 16px;
-      transition: 0.2s;
+      display: flex;
     }
 
-    #searchBtn:hover {
-      opacity: 0.85;
-    }
-
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-      gap: 20px;
-      padding: 25px;
-      max-width: 1200px;
-      margin: auto;
-    }
-
-    .card {
-      background: var(--card);
+    /* SIDEBAR */
+    .sidebar {
+      width: 250px;
+      background: #1a1a1a;
+      height: 100vh;
+      position: fixed;
+      left: 0;
+      top: 0;
       padding: 20px;
-      border-radius: var(--radius);
-      border: 1px solid var(--border);
-      box-shadow: var(--shadow);
+      box-sizing: border-box;
+      border-right: 1px solid #333;
+    }
+    .sidebar h2 {
+      margin-top: 0;
+      margin-bottom: 20px;
+      font-size: 20px;
+      color: #4fa3ff;
+    }
+    .sidebar a {
+      display: block;
+      padding: 12px;
+      color: #ddd;
+      text-decoration: none;
+      border-radius: 6px;
+      margin-bottom: 8px;
       transition: 0.2s;
     }
-
-    .card:hover {
-      transform: translateY(-4px);
-      border-color: var(--primary);
+    .sidebar a:hover {
+      background: #333;
     }
 
+    /* MAIN AREA */
+    .content {
+      margin-left: 250px;
+      padding: 30px;
+      width: calc(100% - 250px);
+    }
+    .card {
+      background: #1b1b1b;
+      padding: 20px;
+      margin-bottom: 20px;
+      border-radius: 10px;
+      border: 1px solid #333;
+    }
     .card h3 {
       margin-top: 0;
-      margin-bottom: 10px;
-      font-size: 19px;
-      color: var(--primary);
+      color: #4fa3ff;
     }
-
-    .card p {
-      margin: 0 0 10px;
-      font-size: 14px;
-      color: var(--text-secondary);
-    }
-
-    .card a {
+    .btn {
       display: inline-block;
-      padding: 10px 14px;
-      background: var(--primary);
-      color: white;
-      border-radius: var(--radius);
+      margin-top: 10px;
+      padding: 10px 16px;
+      background: #4fa3ff;
+      color: #000;
+      border-radius: 6px;
       text-decoration: none;
-      transition: 0.2s;
-    }
-
-    .card a:hover {
-      opacity: 0.8;
+      font-weight: bold;
     }
   </style>
 </head>
 <body>
-  <header>Portal de Suporte • Programas e Manuais</header>
 
-  <div id="searchBox">
-    <input id="searchInput" type="text" placeholder="Buscar programas, manuais ou processos..." />
-    <button id="searchBtn">Buscar</button>
+  <!-- SIDEBAR -->
+  <div class="sidebar">
+    <h2>Suporte</h2>
+    <a href="#home">Início</a>
+    <a href="#remotos">Acesso Remoto</a>
+    <a href="#drivers">Drivers</a>
+    <a href="#manuais">Manuais</a>
+    <a href="#sistemas">Sistemas</a>
   </div>
 
-  <div class="grid" id="itemsGrid"></div>
+  <!-- MAIN AREA -->
+  <div class="content" id="home">
+    <h1>Portal de Suporte</h1>
+    <p>Selecione no menu ao lado o que deseja acessar.</p>
 
-  <script>
-    // Você pode usar LINKS EXTERNOS diretamente aqui.
-// Exemplo:
-// link: "https://base-imc.vercel.app/aplicativos/anydesk.exe"
-// Basta substituir o valor de "link".
-const items = [
-      {
-        nome: "AnyDesk",
-        desc: "Acesso remoto para suporte rápido.",
-        link: "#"
-      },
-      {
-        nome: "TeamViewer",
-        desc: "Ferramenta de controle remoto e suporte.",
-        link: "#"
-      },
-      {
-        nome: "Manual de Integração",
-        desc: "Passo a passo de acesso inicial.",
-        link: "#"
-      },
-      {
-        nome: "Instalador Impressora",
-        desc: "Driver padrão atualizado.",
-        link: "#"
-      },
-      {
-        nome: "Chamados TI",
-        desc: "Abertura de tickets e acompanhamento.",
-        link: "#"
-      }
-    ];
+    <div class="card" id="remotos">
+      <h3>Programas de Acesso Remoto</h3>
+      <p>Softwares usados para suporte e conexões remotas.</p>
+      <a class="btn" href="https://base-imc.vercel.app/aplicativos/anydesk.exe" download>Baixar AnyDesk</a>
+    </div>
 
-    function render(lista) {
-      const grid = document.getElementById("itemsGrid");
-      grid.innerHTML = "";
+    <div class="card" id="drivers">
+      <h3>Drivers</h3>
+      <p>Drivers de equipamentos e impressoras.</p>
+      <a class="btn" href="#">Em breve…</a>
+    </div>
 
-      lista.forEach(i => {
-        grid.innerHTML += `
-          <div class="card">
-            <h3>${i.nome}</h3>
-            <p>${i.desc}</p>
-            <a href="${i.link}" target="_blank">Acessar</a>
-          </div>
-        `;
-      });
-    }
+    <div class="card" id="manuais">
+      <h3>Manuais</h3>
+      <p>Documentações e guias de operação.</p>
+      <a class="btn" href="#">Em breve…</a>
+    </div>
 
-    render(items);
+    <div class="card" id="sistemas">
+      <h3>Sistemas Internos</h3>
+      <p>Atalhos para sistemas corporativos.</p>
+      <a class="btn" href="#">Em breve…</a>
+    </div>
 
-    document.getElementById("searchBtn").addEventListener("click", () => {
-      const termo = document.getElementById("searchInput").value.toLowerCase();
-      render(items.filter(i => i.nome.toLowerCase().includes(termo)));
-    });
-  </script>
+  </div>
+
 </body>
 </html>
-
