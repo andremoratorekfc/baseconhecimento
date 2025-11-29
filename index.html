@@ -5,103 +5,176 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Portal de Suporte</title>
   <style>
-    body { font-family: Arial, sans-serif; margin: 0; background: #f2f2f2; }
-    header { background: #222; color: #fff; padding: 15px; }
-    nav a { color: #fff; margin-right: 15px; text-decoration: none; font-weight: bold; }
-    .container { padding: 20px; }
-    .section { display: none; }
-    .card { background: white; padding: 20px; border-radius: 6px; margin-bottom: 20px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
-    input, button { padding: 10px; width: 100%; margin-top: 10px; }
-    button { cursor: pointer; background: #222; color: white; border: none; border-radius: 5px; }
-    button:hover { background: #444; }
+    :root {
+      --bg: #0d0f12;
+      --card: #15181d;
+      --primary: #4c8bff;
+      --text: #e9ecf1;
+      --text-secondary: #9aa5b8;
+      --border: #1f242b;
+      --radius: 14px;
+      --shadow: 0 4px 20px rgba(0,0,0,0.4);
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+    }
+
+    header {
+      padding: 25px;
+      text-align: center;
+      font-size: 26px;
+      font-weight: bold;
+      background: #111418;
+      box-shadow: var(--shadow);
+    }
+
+    #searchBox {
+      margin: 25px auto;
+      max-width: 600px;
+      display: flex;
+      gap: 10px;
+    }
+
+    #searchInput {
+      flex: 1;
+      padding: 14px;
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      background: var(--card);
+      color: var(--text);
+      font-size: 16px;
+    }
+
+    #searchBtn {
+      padding: 14px 20px;
+      border-radius: var(--radius);
+      border: none;
+      background: var(--primary);
+      color: #fff;
+      cursor: pointer;
+      font-size: 16px;
+      transition: 0.2s;
+    }
+
+    #searchBtn:hover {
+      opacity: 0.85;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 20px;
+      padding: 25px;
+      max-width: 1200px;
+      margin: auto;
+    }
+
+    .card {
+      background: var(--card);
+      padding: 20px;
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow);
+      transition: 0.2s;
+    }
+
+    .card:hover {
+      transform: translateY(-4px);
+      border-color: var(--primary);
+    }
+
+    .card h3 {
+      margin-top: 0;
+      margin-bottom: 10px;
+      font-size: 19px;
+      color: var(--primary);
+    }
+
+    .card p {
+      margin: 0 0 10px;
+      font-size: 14px;
+      color: var(--text-secondary);
+    }
+
+    .card a {
+      display: inline-block;
+      padding: 10px 14px;
+      background: var(--primary);
+      color: white;
+      border-radius: var(--radius);
+      text-decoration: none;
+      transition: 0.2s;
+    }
+
+    .card a:hover {
+      opacity: 0.8;
+    }
   </style>
 </head>
 <body>
-  <header>
-    <h1>Portal de Suporte</h1>
-    <nav>
-      <a href="#" onclick="showSection('home')">Início</a>
-      <a href="#" onclick="showSection('manuals')">Manuais</a>
-      <a href="#" onclick="showSection('programs')">Programas</a>
-      <a href="#" onclick="showSection('tools')">Atalhos</a>
-      <a href="#" onclick="showSection('search')">Busca IA</a>
-    </nav>
-  </header>
+  <header>Portal de Suporte • Programas e Manuais</header>
 
-  <div class="container">
-
-    <!-- HOME -->
-    <div id="home" class="section">
-      <div class="card">
-        <h2>Bem-vindo ao Portal</h2>
-        <p>Aqui você encontra manuais, instaladores, atalhos de ferramentas e uma busca inteligente com IA.</p>
-      </div>
-    </div>
-
-    <!-- MANUAIS -->
-    <div id="manuals" class="section">
-      <div class="card">
-        <h2>Manuais</h2>
-        <ul>
-          <li><a href="files/manual1.pdf" download>Manual de Operação</a></li>
-          <li><a href="files/manual2.pdf" download>Manual Técnico</a></li>
-        </ul>
-      </div>
-    </div>
-
-    <!-- PROGRAMAS -->
-    <div id="programs" class="section">
-      <div class="card">
-        <h2>Programas</h2>
-        <ul>
-          <li><a href="files/instalador.exe" download>Instalador do Sistema</a></li>
-          <li><a href="files/agent.msi" download>Agente de Suporte</a></li>
-        </ul>
-      </div>
-    </div>
-
-    <!-- ATALHOS -->
-    <div id="tools" class="section">
-      <div class="card">
-        <h2>Atalhos Remotos</h2>
-        <ul>
-          <li><a href="https://remote.system.com" target="_blank">Acesso Remoto</a></li>
-          <li><a href="https://dash.example.com" target="_blank">Painel de Controle</a></li>
-        </ul>
-      </div>
-    </div>
-
-    <!-- BUSCA IA -->
-    <div id="search" class="section">
-      <div class="card">
-        <h2>Busca Inteligente (IA)</h2>
-        <input type="text" id="query" placeholder="Digite o que procura..." />
-        <button onclick="iaSearch()">Buscar</button>
-        <div id="result" style="margin-top: 20px;"></div>
-      </div>
-    </div>
-
+  <div id="searchBox">
+    <input id="searchInput" type="text" placeholder="Buscar programas, manuais ou processos..." />
+    <button id="searchBtn">Buscar</button>
   </div>
 
+  <div class="grid" id="itemsGrid"></div>
+
   <script>
-    function showSection(id) {
-      document.querySelectorAll('.section').forEach(s => s.style.display = 'none');
-      document.getElementById(id).style.display = 'block';
-    }
-
-    showSection('home');
-
-    function iaSearch() {
-      let q = document.getElementById('query').value.trim();
-      let display = document.getElementById('result');
-      if (!q) {
-        display.innerHTML = '<p>Digite algo para buscar.</p>';
-        return;
+    const items = [
+      {
+        nome: "AnyDesk",
+        desc: "Acesso remoto para suporte rápido.",
+        link: "#"
+      },
+      {
+        nome: "TeamViewer",
+        desc: "Ferramenta de controle remoto e suporte.",
+        link: "#"
+      },
+      {
+        nome: "Manual de Integração",
+        desc: "Passo a passo de acesso inicial.",
+        link: "#"
+      },
+      {
+        nome: "Instalador Impressora",
+        desc: "Driver padrão atualizado.",
+        link: "#"
+      },
+      {
+        nome: "Chamados TI",
+        desc: "Abertura de tickets e acompanhamento.",
+        link: "#"
       }
+    ];
 
-      // IA SIMULADA (você pode conectar API futuramente)
-      display.innerHTML = `<p><strong>Você buscou:</strong> ${q}</p><p>Resultado simulado da IA. Aqui você pode conectar sua API real.</p>`;
+    function render(lista) {
+      const grid = document.getElementById("itemsGrid");
+      grid.innerHTML = "";
+
+      lista.forEach(i => {
+        grid.innerHTML += `
+          <div class="card">
+            <h3>${i.nome}</h3>
+            <p>${i.desc}</p>
+            <a href="${i.link}" target="_blank">Acessar</a>
+          </div>
+        `;
+      });
     }
+
+    render(items);
+
+    document.getElementById("searchBtn").addEventListener("click", () => {
+      const termo = document.getElementById("searchInput").value.toLowerCase();
+      render(items.filter(i => i.nome.toLowerCase().includes(termo)));
+    });
   </script>
 </body>
 </html>
