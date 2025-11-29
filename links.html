@@ -1,29 +1,73 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Links de Acesso • Portal de Suporte</title>
-<style>/* mesmo estilo */</style>
+<style>
+:root { --bg:#0d0f12; --card:#15181d; --primary:#4c8bff; --text:#e9ecf1; --text-secondary:#9aa5b8;
+--border:#1f242b; --radius:14px; --shadow:0 4px 20px rgba(0,0,0,0.4); }
+body { margin:0; font-family:Arial,sans-serif; background:var(--bg); color:var(--text); }
+header { padding:25px; text-align:center; font-size:26px; font-weight:bold; background:#111418; box-shadow:var(--shadow); }
+nav { display:flex; justify-content:center; gap:14px; padding:15px; background:#111418; }
+nav button { background:var(--card); padding:10px 20px; border-radius:var(--radius); border:1px solid var(--border);
+color:var(--text); font-size:14px; cursor:pointer; transition:0.2s; }
+nav button:hover { border-color:var(--primary); color:var(--primary); }
+.grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(260px,1fr)); gap:20px; padding:25px; max-width:1200px; margin:auto; }
+.card { background:var(--card); padding:20px; border-radius:var(--radius); border:1px solid var(--border); box-shadow:var(--shadow); transition:0.2s; }
+.card:hover { transform:translateY(-4px); border-color:var(--primary); }
+.card h3 { margin-top:0; margin-bottom:10px; font-size:19px; color:var(--primary); }
+.card p { margin:0 0 10px; font-size:14px; color:var(--text-secondary); }
+.card a { display:inline-block; padding:10px 14px; background:var(--primary); color:white; border-radius:var(--radius); text-decoration:none; transition:0.2s; }
+.card a:hover { opacity:0.8; }
+#searchBox { margin:25px auto; max-width:600px; display:flex; gap:10px; }
+#searchInput { flex:1; padding:14px; border-radius:var(--radius); border:1px solid var(--border); background:var(--card); color:var(--text); font-size:16px; }
+#searchBtn { padding:14px 20px; border-radius:var(--radius); border:none; background:var(--primary); color:#fff; cursor:pointer; font-size:16px; transition:0.2s; }
+#searchBtn:hover { opacity:0.85; }
+</style>
 </head>
 <body>
 
-<header>Links de Acesso</header>
+<header>Links de Acesso • Portal de Suporte</header>
 
 <nav>
-  <a href="inicio.html">Início</a>
-  <a href="aplicativos.html">Aplicativos</a>
-  <a href="contatos.html">Contatos</a>
-  <a href="links.html">Links de Acesso</a>
-  <a href="lojas.html">Lojas</a>
-  <a href="menuboard.html">MenuBoard</a>
-  <a href="acesso.html">Acesso Remoto</a>
+  <button onclick="window.location.href='index.html'">Início</button>
+  <button onclick="window.location.href='aplicativos.html'">Aplicativos</button>
+  <button onclick="window.location.href='contatos.html'">Contatos</button>
+  <button onclick="window.location.href='links.html'">Links de Acesso</button>
+  <button onclick="window.location.href='lojas.html'">Lojas</button>
+  <button onclick="window.location.href='menuboard.html'">MenuBoard</button>
+  <button onclick="window.location.href='acesso.html'">Acesso Remoto</button>
 </nav>
 
-<div class="container">
-  <h2>Links Internos</h2>
-  <p>Portal Corporativo, Chamados TI, VPN e outros sistemas.</p>
+<div id="searchBox">
+  <input id="searchInput" type="text" placeholder="Buscar links..." />
+  <button id="searchBtn">Buscar</button>
 </div>
+
+<div class="grid" id="itemsGrid"></div>
+
+<script>
+const links=[
+  {nome:"Portal Corporativo", desc:"Acesso interno.", link:"#"},
+  {nome:"Chamados TI", desc:"Abrir chamados.", link:"#"},
+  {nome:"TeamViewer", desc:"Suporte remoto alternativo.", link:"https://www.teamviewer.com/pt-br/download/"}
+];
+
+function render(lista){
+  const grid=document.getElementById("itemsGrid");
+  grid.innerHTML="";
+  lista.forEach(i=>{grid.innerHTML+=`<div class="card"><h3>${i.nome}</h3><p>${i.desc}</p><a href="${i.link}" target="_blank">Acessar</a></div>`});
+}
+
+document.getElementById("searchBtn").addEventListener("click",()=>{
+  const termo=document.getElementById("searchInput").value.toLowerCase();
+  const resultado=links.filter(i=>i.nome.toLowerCase().includes(termo));
+  render(resultado);
+});
+
+render(links);
+</script>
 
 </body>
 </html>
