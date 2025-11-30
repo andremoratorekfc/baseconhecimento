@@ -1,158 +1,139 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Acesso Rápido VNC – Lojas KFC</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Acesso Remoto VNC – Lojas</title>
 
-<style>
-    body {
-        font-family: Arial, sans-serif;
-        background-color: #111;
-        color: #fff;
-        padding: 20px;
+  <style>
+    :root {
+      --bg: #0d0f12;
+      --card: #15181d;
+      --primary: #4c8bff;
+      --text: #e9ecf1;
+      --text-secondary: #9aa5b8;
+      --border: #1f242b;
+      --radius: 14px;
+      --shadow: 0 4px 20px rgba(0,0,0,0.4);
     }
 
-    h1 {
-        text-align: center;
-        margin-bottom: 20px;
+    body { margin:0; font-family:Arial,sans-serif; background:var(--bg); color:var(--text); }
+    header { padding:25px; text-align:center; font-size:26px; font-weight:bold; background:#111418; box-shadow:var(--shadow); }
+    nav { display:flex; justify-content:center; gap:14px; padding:15px; background:#111418; }
+    nav button {
+      background:var(--card); padding:10px 20px; border-radius:var(--radius);
+      border:1px solid var(--border); color:var(--text); font-size:14px; cursor:pointer; transition:0.2s;
+    }
+    nav button:hover { border-color:var(--primary); color:var(--primary); }
+
+    #searchBox { margin:25px auto; max-width:600px; display:flex; gap:10px; }
+    #searchInput {
+      flex:1; padding:14px; border-radius:var(--radius); border:1px solid var(--border);
+      background:var(--card); color:var(--text); font-size:16px;
+    }
+    #searchBtn {
+      padding:14px 20px; border-radius:var(--radius); border:none;
+      background:var(--primary); color:#fff; cursor:pointer; font-size:16px; transition:0.2s;
+    }
+    #searchBtn:hover { opacity:0.85; }
+
+    .grid {
+      display:grid;
+      grid-template-columns:repeat(auto-fill,minmax(260px,1fr));
+      gap:20px;
+      padding:25px;
+      max-width:1300px;
+      margin:auto;
     }
 
-    input {
-        width: 100%;
-        padding: 10px;
-        margin-bottom: 20px;
-        border-radius: 5px;
-        border: none;
-        font-size: 16px;
+    .card {
+      background:var(--card);
+      padding:20px;
+      border-radius:var(--radius);
+      border:1px solid var(--border);
+      box-shadow:var(--shadow);
+      transition:0.2s;
     }
 
-    table {
-        width: 100%;
-        border-collapse: collapse;
+    .card:hover { transform:translateY(-4px); border-color:var(--primary); }
+
+    .card h3 { margin:0 0 10px; color:var(--primary); }
+    .card p { margin:0 0 8px; color:var(--text-secondary); font-size:14px; }
+
+    .card a {
+      display:inline-block;
+      padding:10px 14px;
+      background:var(--primary);
+      color:white;
+      border-radius:var(--radius);
+      text-decoration:none;
+      transition:0.2s;
     }
 
-    th, td {
-        padding: 12px;
-        text-align: left;
-        border-bottom: 1px solid #333;
-    }
-
-    th {
-        background-color: #222;
-    }
-
-    tr:hover {
-        background-color: #333;
-    }
-
-    a {
-        color: #1e90ff;
-        font-weight: bold;
-        text-decoration: none;
-    }
-
-    a:hover {
-        text-decoration: underline;
-    }
-</style>
+    .card a:hover { opacity:0.8; }
+  </style>
 
 </head>
 <body>
 
-<h1>Acesso VNC – Lojas KFC</h1>
+<header>Acesso Remoto VNC • Lojas</header>
 
-<input type="text" id="filtro" placeholder="Pesquisar por loja, nome ou IP..." onkeyup="filtrarTabela()">
+<nav>
+  <button onclick="window.location.href='index.html'">Início</button>
+  <button onclick="window.location.href='aplicativos.html'">Aplicativos</button>
+  <button onclick="window.location.href='contatos.html'">Contatos</button>
+  <button onclick="window.location.href='links.html'">Links de Acesso</button>
+  <button onclick="window.location.href='lojas.html'">Lojas</button>
+  <button onclick="window.location.href='menuboard.html'">MenuBoard</button>
+  <button onclick="window.location.href='lojas-vnc.html'">Acesso Remoto</button>
+</nav>
 
-<table>
-    <thead>
-        <tr>
-            <th>Loja</th>
-            <th>Email</th>
-            <th>IP</th>
-            <th>Acessar</th>
-        </tr>
-    </thead>
+<div id="searchBox">
+  <input id="searchInput" type="text" placeholder="Buscar loja, código, email ou IP..." />
+  <button id="searchBtn">Buscar</button>
+</div>
 
-    <tbody id="listaLojas">
-
-        <tr>
-            <td>K001 – Shopping Analia Franco</td>
-            <td>kfcbr001@kfc.com.br</td>
-            <td>10.32.40.10</td>
-            <td><a href="vnc://10.32.40.10">Conectar</a></td>
-        </tr>
-
-        <tr>
-            <td>K002 – Shopping Diamond Mall</td>
-            <td>kfcbr002@kfc.com.br</td>
-            <td>10.32.12.10</td>
-            <td><a href="vnc://10.32.12.10">Conectar</a></td>
-        </tr>
-
-        <tr>
-            <td>K003 – Shopping Boulevard BH</td>
-            <td>kfcbr003@kfc.com.br</td>
-            <td>10.32.14.10</td>
-            <td><a href="vnc://10.32.14.10">Conectar</a></td>
-        </tr>
-
-        <tr>
-            <td>K005 – Shopping Market Place</td>
-            <td>kfcbr005@kfc.com.br</td>
-            <td>10.32.46.10</td>
-            <td><a href="vnc://10.32.46.10">Conectar</a></td>
-        </tr>
-
-        <tr>
-            <td>K006 – Aeroporto Brasília</td>
-            <td>kfcbr006@kfc.com.br</td>
-            <td>10.32.10.10</td>
-            <td><a href="vnc://10.32.10.10">Conectar</a></td>
-        </tr>
-
-        <tr>
-            <td>K007 – Tietê Plaza Shopping</td>
-            <td>kfcbr007@kfc.com.br</td>
-            <td>10.32.39.10</td>
-            <td><a href="vnc://10.32.39.10">Conectar</a></td>
-        </tr>
-
-        <tr>
-            <td>K044 – Praia de Belas Shopping</td>
-            <td>kfcbr044@kfc.com.br</td>
-            <td>10.32.45.10</td>
-            <td><a href="vnc://10.32.45.10">Conectar</a></td>
-        </tr>
-
-        <tr>
-            <td>K045 – Shopping Litoral Plaza</td>
-            <td>kfcbr045@kfc.com.br</td>
-            <td>10.32.44.10</td>
-            <td><a href="vnc://10.32.44.10">Conectar</a></td>
-        </tr>
-
-        <tr>
-            <td>K047 – Osasco Plaza Shopping</td>
-            <td>kfcbr047@kfc.com.br</td>
-            <td>10.32.18.10</td>
-            <td><a href="vnc://10.32.18.10">Conectar</a></td>
-        </tr>
-
-    </tbody>
-</table>
-
+<div class="grid" id="itemsGrid"></div>
 
 <script>
-function filtrarTabela() {
-    const filtro = document.getElementById("filtro").value.toLowerCase();
-    const linhas = document.querySelectorAll("#listaLojas tr");
+  const lojas = [
+    { loja:"K001 – Shopping Analia Franco", email:"kfcbr001@kfc.com.br", ip:"10.32.40.10" },
+    { loja:"K002 – Shopping Diamond Mall", email:"kfcbr002@kfc.com.br", ip:"10.32.12.10" },
+    { loja:"K003 – Shopping Boulevard BH", email:"kfcbr003@kfc.com.br", ip:"10.32.14.10" },
+    { loja:"K005 – Shopping Market Place", email:"kfcbr005@kfc.com.br", ip:"10.32.46.10" },
+    { loja:"K006 – Aeroporto Brasília", email:"kfcbr006@kfc.com.br", ip:"10.32.10.10" },
+    { loja:"K007 – Tietê Plaza Shopping", email:"kfcbr007@kfc.com.br", ip:"10.32.39.10" },
+    { loja:"K044 – Praia de Belas Shopping", email:"kfcbr044@kfc.com.br", ip:"10.32.45.10" },
+    { loja:"K045 – Shopping Litoral Plaza", email:"kfcbr045@kfc.com.br", ip:"10.32.44.10" },
+    { loja:"K047 – Osasco Plaza Shopping", email:"kfcbr047@kfc.com.br", ip:"10.32.18.10" },
+  ];
 
-    linhas.forEach(linha => {
-        const texto = linha.innerText.toLowerCase();
-        linha.style.display = texto.includes(filtro) ? "" : "none";
+  function render(lista) {
+    const grid = document.getElementById("itemsGrid");
+    grid.innerHTML = "";
+    lista.forEach(i => {
+      grid.innerHTML += `
+        <div class="card">
+          <h3>${i.loja}</h3>
+          <p><b>Email:</b> ${i.email}</p>
+          <p><b>IP:</b> ${i.ip}</p>
+          <a href="vnc://${i.ip}">Conectar via VNC</a>
+        </div>
+      `;
     });
-}
+  }
+
+  document.getElementById("searchBtn").addEventListener("click", () => {
+    const termo = document.getElementById("searchInput").value.toLowerCase();
+    const filtro = lojas.filter(i =>
+      i.loja.toLowerCase().includes(termo) ||
+      i.email.toLowerCase().includes(termo) ||
+      i.ip.includes(termo)
+    );
+    render(filtro);
+  });
+
+  render(lojas);
 </script>
 
 </body>
