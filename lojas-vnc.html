@@ -1,25 +1,132 @@
-def abrir_loja_vnc():
-    nome = nome_entry.get().strip()
-    if not nome:
-        messagebox.showwarning("Aviso", "Digite o nome da loja!")
-        return
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Acesso Remoto VNC</title>
 
-    # AQUI VOCÊ DEFINE SUA LISTA
-    lojas = {
-        "k81": "10.1.81.10:5900",
-        "k82": "10.1.82.10:5900",
-        "k83": "10.1.83.10:5900",
-        # ... continue até k193
+<style>
+    body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        background: #0d0f12;
+        color: #e9ecf1;
     }
+    header {
+        text-align: center;
+        padding: 25px;
+        font-size: 26px;
+        font-weight: bold;
+        background: #111418;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+    }
+    .container {
+        max-width: 900px;
+        margin: 30px auto;
+        padding: 10px;
+    }
+    .search {
+        display: flex;
+        gap: 10px;
+        margin-bottom: 20px;
+    }
+    .search input {
+        flex: 1;
+        padding: 14px;
+        border-radius: 10px;
+        border: none;
+        background: #15181d;
+        color: white;
+        font-size: 16px;
+    }
+    .grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill,minmax(240px,1fr));
+        gap: 20px;
+    }
+    .card {
+        background: #15181d;
+        padding: 20px;
+        border-radius: 14px;
+        border: 1px solid #1f242b;
+        transition: 0.2s;
+        text-align: center;
+    }
+    .card:hover {
+        transform: translateY(-4px);
+        border-color: #4c8bff;
+    }
+    .card h3 {
+        margin: 0 0 10px;
+        color: #4c8bff;
+    }
+    .card a {
+        display: inline-block;
+        margin-top: 10px;
+        padding: 10px 14px;
+        background: #4c8bff;
+        color: white;
+        text-decoration: none;
+        border-radius: 10px;
+        transition: 0.2s;
+    }
+    .card a:hover {
+        opacity: 0.8;
+    }
+</style>
 
-    nome = nome.lower()
+</head>
+<body>
 
-    if nome not in lojas:
-        messagebox.showerror("Erro", f"A loja '{nome}' não existe na lista!")
-        return
+<header>Acesso Remoto VNC - Lojas</header>
 
-    ip_porta = lojas[nome]
+<div class="container">
 
-    # ABRE O VNC
-    url = f"vnc://{ip_porta}"
-    webbrowser.open(url)
+    <div class="search">
+        <input id="searchInput" type="text" placeholder="Buscar loja... (ex: k81)">
+    </div>
+
+    <div class="grid" id="gridLojas"></div>
+
+</div>
+
+<script>
+const lojas = {
+    "k81": "10.1.81.10:5900",
+    "k82": "10.1.82.10:5900",
+    "k83": "10.1.83.10:5900",
+    "k84": "10.1.84.10:5900",
+    "k85": "10.1.85.10:5900"
+    // 👉 Adicione até k193 aqui
+};
+
+function renderLojas(filtro = "") {
+    const grid = document.getElementById("gridLojas");
+    grid.innerHTML = "";
+
+    const termo = filtro.toLowerCase();
+
+    Object.keys(lojas).forEach(loja => {
+        if (!loja.toLowerCase().includes(termo)) return;
+
+        const ip = lojas[loja];
+
+        grid.innerHTML += `
+            <div class="card">
+                <h3>${loja.toUpperCase()}</h3>
+                <p>${ip}</p>
+                <a href="vnc://${ip}">Acessar VNC</a>
+            </div>
+        `;
+    });
+}
+
+document.getElementById("searchInput").addEventListener("input", (e) => {
+    renderLojas(e.target.value);
+});
+
+renderLojas();
+</script>
+
+</body>
+</html>
