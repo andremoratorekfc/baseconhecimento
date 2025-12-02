@@ -59,6 +59,7 @@
     .card h3 {
         margin: 0 0 10px;
         color: #4c8bff;
+        text-transform: uppercase;
     }
     .card a {
         display: inline-block;
@@ -73,6 +74,12 @@
     .card a:hover {
         opacity: 0.8;
     }
+    .empty {
+        text-align: center;
+        opacity: 0.6;
+        margin-top: 50px;
+        font-size: 18px;
+    }
 </style>
 
 </head>
@@ -83,10 +90,14 @@
 <div class="container">
 
     <div class="search">
-        <input id="searchInput" type="text" placeholder="Buscar loja... (ex: k81)">
+        <input id="searchInput" type="text" placeholder="Buscar loja... ex: k81, k90, k107">
     </div>
 
     <div class="grid" id="gridLojas"></div>
+
+    <div id="emptyMsg" class="empty" style="display:none;">
+        Nenhuma loja encontrada...
+    </div>
 
 </div>
 
@@ -97,34 +108,41 @@ const lojas = {
     "k83": "10.1.83.10:5900",
     "k84": "10.1.84.10:5900",
     "k85": "10.1.85.10:5900"
-    // 👉 Adicione até k193 aqui
 };
 
 function renderLojas(filtro = "") {
     const grid = document.getElementById("gridLojas");
+    const emptyMsg = document.getElementById("emptyMsg");
+    
     grid.innerHTML = "";
 
     const termo = filtro.toLowerCase();
+    let contador = 0;
 
     Object.keys(lojas).forEach(loja => {
         if (!loja.toLowerCase().includes(termo)) return;
 
+        contador++;
         const ip = lojas[loja];
 
         grid.innerHTML += `
             <div class="card">
-                <h3>${loja.toUpperCase()}</h3>
+                <h3>${loja}</h3>
                 <p>${ip}</p>
                 <a href="vnc://${ip}">Acessar VNC</a>
             </div>
         `;
     });
+
+    // exibe mensagem se nada encontrado
+    emptyMsg.style.display = contador === 0 ? "block" : "none";
 }
 
 document.getElementById("searchInput").addEventListener("input", (e) => {
     renderLojas(e.target.value);
 });
 
+// render inicial
 renderLojas();
 </script>
 
