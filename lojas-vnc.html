@@ -61,10 +61,6 @@
         color: #4c8bff;
         text-transform: uppercase;
     }
-    .card p {
-        margin: 5px 0 12px;
-        opacity: 0.7;
-    }
     .card a {
         display: inline-block;
         margin-top: 10px;
@@ -108,40 +104,27 @@
 // =========================
 // LISTA DE LOJAS
 // =========================
-
-const lojas = {
-    "k81": "10.1.81.10:5900",
-    "k82": "10.1.82.10:5900",
-    "k83": "10.1.83.10:5900",
-    "k84": "10.1.84.10:5900",
-    "k85": "10.1.85.10:5900"
-};
-
+const lojas = ["k81", "k82", "k83", "k84", "k85"];
 
 // =========================
 // FUNÇÃO PARA RENDERIZAR
 // =========================
-
 function renderLojas(filtro = "") {
     const grid = document.getElementById("gridLojas");
     const emptyMsg = document.getElementById("emptyMsg");
     
     grid.innerHTML = "";
-
     const termo = filtro.toLowerCase();
     let contador = 0;
 
-    Object.keys(lojas).forEach(loja => {
+    lojas.forEach(loja => {
         if (!loja.toLowerCase().includes(termo)) return;
-
         contador++;
-        const ip = lojas[loja];
 
         grid.innerHTML += `
             <div class="card">
-                <h3>${loja}</h3>
-                <p>${ip}</p>
-                <a href="file:///C:/VNCLinks/${loja}.bat">Acessar VNC</a>
+                <h3>Menu</h3>
+                <a href="file:///C:/VNCLinks/menu.bat">Acessar VNC</a>
             </div>
         `;
     });
@@ -152,7 +135,6 @@ function renderLojas(filtro = "") {
 // =========================
 // EVENTO DO BUSCADOR
 // =========================
-
 document.getElementById("searchInput").addEventListener("input", (e) => {
     renderLojas(e.target.value);
 });
@@ -160,7 +142,6 @@ document.getElementById("searchInput").addEventListener("input", (e) => {
 // =========================
 // PRIMEIRA RENDERIZAÇÃO
 // =========================
-
 renderLojas();
 
 </script>
